@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>error</title>
+    <th:block th:replace="fragments/plugins.html::plugins"></th:block>
+
+</head>
+<body>
+
+<h1 th:if="${session.logged_in=='true'}" th:text="${#session.getAttribute('logged_in')}" class="text-info">asda</h1>
+<script type="application/javascript">
+    $(documenst).ready(function () {
+        swal({
+            title: "Good job!",
+            text: "You clicked the button!",
+            icon: "info",
+        });
+
+        $.notify({
+            // options
+            message: 'Hello World'
+        },{
+            // settings
+            type: 'danger'
+        });
+    });
+</script>
+</body>
+</html>

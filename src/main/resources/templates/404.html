@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>404 Page</title>
+    <th:block th:replace="fragments/plugins.html::plugins"></th:block>
+
+</head>
+<body>
+<div id="Page404">
+    <h1 class="text-center">404 Page</h1>
+    <h5 class="text-center">Oops that page not found!!</h5>
+    <h5 class="text-center"><a th:href="@{/}" class="btn-info-sm">Go to Home</a></h5>
+</div>
+</body>
+</html>
