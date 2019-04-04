@@ -7,5 +7,263 @@
 </head>
 <body>
 <!--navbar-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Link Sharing</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse  mr-5" id="navbarTogglerDemo02">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <form class="form-inline my-2 my-lg-0">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                      </span>
+                        <input type="text" class="form-control" placeholder="Search for Topics..">
+
+                    </div>
+                </form>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#"><i class="fas fa-comment-dots"></i><span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#"><i class="fas fa-envelope"></i></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#"><i class="fas fa-link"></i></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#"><i class="fas fa-sticky-note"></i> <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active ml-3">
+                <img th:src="@{/img/user.png}" class="img-thumbnail" width="50px" height="50px">
+            </li>
+            <li class="nav-item">
+                <div class="dropdown">
+                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown button
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+<div class="container-fluid mt-2">
+    <div class="row">
+        <!--profile card-->
+        <div class="col-4">
+            <div class="row">
+                <div class="col-12">
+
+                    <div class="card border-info">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img th:src="@{/img/user.png}" width="100px" height="100px">
+                                </div>
+                                <div class="col-8">
+                                    <h5 class="card-title m-0">Full name</h5>
+                                    <p class="text-info m-0 p-0">@dskd</p>
+                                    <div class="row mt-2">
+                                        <div class="col-6">
+                                            <p class="m-0 p-0">subscription</p>
+                                            <p class="m-0 p-0">50</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="m-0 p-0">Topics</p>
+                                            <p class="m-0 p-0">50</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--profile card end-->
+
+            <!--subscription card-->
+            <div class="row my-1">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            Subscriptions
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Special title treatment</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--inbox-->
+        <div class="col-8">
+            <div class="card border-info">
+                <div class="card-header ">Inbox</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-2">
+                                    <img class="img-thumbnail" th:src="@{/img/user.png}" width="500px" height="500px">
+                                </div>
+                                <div class="col-10">
+                                    <h5 class="card-title">Full name
+                                        <span class="ml-1">@<a th:href="@{/as}" class="text-info">username</a></span>
+                                        <span style="float: right">
+                                                    <a th:href="@{/as}" class="text-success">topic</a>
+                                                </span>
+                                    </h5>
+                                    <p class="card-text text-justify">
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additionalcontent.
+                                    </p>
+                                    <span style="float: left">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                </span>
+
+                                    <div style="float: right;">
+                                    <a class="mx-1" th:href="@{/as}">Download</a>
+                                    <a class="mx-1" th:href="@{/as}">View full site</a>
+                                    <a class="mx-1" th:href="@{/as}">Mark as read</a>
+                                    <a class="mx-1" th:href="@{/as}">visit post</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-2">
+                                    <img class="img-thumbnail" th:src="@{/img/user.png}" width="500px" height="500px">
+                                </div>
+                                <div class="col-10">
+                                    <h5 class="card-title">Full name
+                                        <span class="ml-1">@<a th:href="@{/as}" class="text-info">username</a></span>
+                                        <span style="float: right">
+                                                    <a th:href="@{/as}" class="text-success">topic</a>
+                                                </span>
+                                    </h5>
+                                    <p class="card-text text-justify">
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additionalcontent.
+                                    </p>
+                                    <span style="float: left">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                </span>
+
+                                    <div style="float: right;">
+                                        <a class="mx-1" th:href="@{/as}">Download</a>
+                                        <a class="mx-1" th:href="@{/as}">View full site</a>
+                                        <a class="mx-1" th:href="@{/as}">Mark as read</a>
+                                        <a class="mx-1" th:href="@{/as}">visit post</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-2">
+                                    <img class="img-thumbnail" th:src="@{/img/user.png}" width="500px" height="500px">
+                                </div>
+                                <div class="col-10">
+                                    <h5 class="card-title">Full name
+                                        <span class="ml-1">@<a th:href="@{/as}" class="text-info">username</a></span>
+                                        <span style="float: right">
+                                                    <a th:href="@{/as}" class="text-success">topic</a>
+                                                </span>
+                                    </h5>
+                                    <p class="card-text text-justify">
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additionalcontent.
+                                    </p>
+                                    <span style="float: left">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                </span>
+
+                                    <div style="float: right;">
+                                        <a class="mx-1" th:href="@{/as}">Download</a>
+                                        <a class="mx-1" th:href="@{/as}">View full site</a>
+                                        <a class="mx-1" th:href="@{/as}">Mark as read</a>
+                                        <a class="mx-1" th:href="@{/as}">visit post</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-2">
+                                    <img class="img-thumbnail" th:src="@{/img/user.png}" width="500px" height="500px">
+                                </div>
+                                <div class="col-10">
+                                    <h5 class="card-title">Full name
+                                        <span class="ml-1">@<a th:href="@{/as}" class="text-info">username</a></span>
+                                        <span style="float: right">
+                                                    <a th:href="@{/as}" class="text-success">topic</a>
+                                                </span>
+                                    </h5>
+                                    <p class="card-text text-justify">
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additional
+                                        With supporting text below as a natural lead-in to additionalcontent.
+                                    </p>
+                                    <span style="float: left">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                </span>
+
+                                    <div style="float: right;">
+                                        <a class="mx-1" th:href="@{/as}">Download</a>
+                                        <a class="mx-1" th:href="@{/as}">View full site</a>
+                                        <a class="mx-1" th:href="@{/as}">Mark as read</a>
+                                        <a class="mx-1" th:href="@{/as}">visit post</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><hr>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
