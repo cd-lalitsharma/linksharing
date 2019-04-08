@@ -23,9 +23,11 @@ public class TopicsService implements TopicsServiceInterface {
         Topics topic = new Topics();
         topic.setName(topicsCo.getTopicName());
         User user =userRepository.getUserById(userId);
-        topic.setUser(user);/*
-        topic.setVisibility();
-        topicsRepository.save();*/
+        topic.setUser(user);
+        //converting enum to string because entity has
+        // visibility as enum whereas CO has visibility as enum
+        topic.setVisibility(topicsCo.getVisibility().toString());
+        topicsRepository.save(topic);
         
         return topic;
     }

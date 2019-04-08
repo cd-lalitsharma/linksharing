@@ -45,8 +45,8 @@ public class Resources implements Serializable {
     private String location;
     @Column(name = "type")
     private String type;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resourcesId")
-    private Set<Posts> postsSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resources")
+    private Set<Posts> posts;
 
     public Resources() {
     }
@@ -80,12 +80,12 @@ public class Resources implements Serializable {
     }
 
     @XmlTransient
-    public Set<Posts> getPostsSet() {
-        return postsSet;
+    public Set<Posts> getposts() {
+        return posts;
     }
 
-    public void setPostsSet(Set<Posts> postsSet) {
-        this.postsSet = postsSet;
+    public void setposts(Set<Posts> posts) {
+        this.posts = posts;
     }
 
     @Override

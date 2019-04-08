@@ -74,7 +74,7 @@
                                     <img th:src="@{/img/user.png}" width="100px" height="100px">
                                 </div>
                                 <div class="col-8">
-                                    <h5 class="card-title m-0">Full name</h5>
+                                    <h5 class="card-title m-0" id="fullname">Full name</h5>
                                     <p class="text-info m-0 p-0">@dskd</p>
                                     <div class="row mt-2">
                                         <div class="col-6">
@@ -404,25 +404,24 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form th:object="${topicco}">
+                <form th:object="${topicCo}" >
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Topic Name</label>
-                        <input type="email" class="form-control" th:field="*{topicName}" id="exampleFormControlInput1" placeholder="topic name">
+                        <label for="create_topic_name">Topic Name</label>
+                        <input type="text" class="form-control" th:field="*{topicName}" id="create_topic_name" placeholder="topic name">
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlSelect1">Visibility</label>
-                        <select class="form-control"  id="exampleFormControlSelect1">
-                            <th:block th:each="visibility :*{visibility}">
+                        <label for="create_topic_visibility">Visibility</label>
+                        <select class="form-control"  id="create_topic_visibility">
+                            <option th:each="val:${T(com.ttn.linksharing.enums.VisibilityEnum).values()}" th:value="${val}" th:text="${val}" >visibility</option>
 
-                                <option th:field="${visibility}" th:text="{visibility}">visibility</option>
-                            </th:block>
                         </select>
                     </div>
+                    </form>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" id="saveTopic">Save changes</button>
             </div>
         </div>
     </div>
@@ -460,11 +459,27 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <form th:object="${postsCo}" >
+                    <div class="form-group">
+                        <label for="link_resource_name">Link Name</label>
+                        <input type="text" class="form-control" th:field="*{linkName}" id="link_resource_name" placeholder="topic name">
+                    </div>
+                    <div class="form-group">
+                        <label for="link_resource_description">Link Description</label>
+                        <input type="text" class="form-control" th:field="*{linkDescription}" id="link_resource_description" placeholder="topic name">
+                    </div>
+                    <div class="form-group">
+                        <label for="link_resource_topic">Topic</label>
+                        <select class="form-control"  id="link_resource_topic" th:field="*{topic}">
+                            <option  th:each="val:${topicsCreatedByUser}" th:value="${val.name}" th:text="${val.name}" >visibility</option>
+
+                        </select>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" id="addLinkResource">Save changes</button>
             </div>
         </div>
     </div>
@@ -484,10 +499,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" id="addDocumentResource" >Save changes</button>
             </div>
         </div>
     </div>
 </div>
+
+<script src="/js/dashboard.js"></script>
 </body>
 </html>

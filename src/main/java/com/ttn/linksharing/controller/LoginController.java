@@ -37,6 +37,8 @@ public class LoginController {
             return "redirect:/";
         }else{
             session.setAttribute("login","true");
+            session.setAttribute("userId",1);
+    
             return "redirect:/dashboard";
         }
     }

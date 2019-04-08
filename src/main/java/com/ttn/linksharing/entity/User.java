@@ -5,6 +5,8 @@
  */
 package com.ttn.linksharing.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -77,18 +79,18 @@ public class User implements Serializable {
     @Column(name = "is_active")
     private Integer isActive;
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date createdDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<Invitations> invitationsSet;
+    private Set<Invitations> invitations;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<Ratings> ratingsSet;
+    private Set<Ratings> ratings;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<Topics> topicsSet;
+    private Set<Topics> topics;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<ReadPosts> readPostsSet;
+    private Set<ReadPosts> readPosts;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<Posts> postsSet;
+    private Set<Posts> posts;
 
     public User() {
     }
@@ -201,49 +203,48 @@ public class User implements Serializable {
         this.createdDate = createdDate;
     }
 
-    @XmlTransient
-    public Set<Invitations> getInvitationsSet() {
-        return invitationsSet;
+    
+    public Set<Invitations> getinvitations() {
+        return invitations;
     }
 
-    public void setInvitationsSet(Set<Invitations> invitationsSet) {
-        this.invitationsSet = invitationsSet;
+    public void setinvitations(Set<Invitations> invitations) {
+        this.invitations = invitations;
     }
 
-    @XmlTransient
-    public Set<Ratings> getRatingsSet() {
-        return ratingsSet;
+    
+    public Set<Ratings> getratings() {
+        return ratings;
     }
 
-    public void setRatingsSet(Set<Ratings> ratingsSet) {
-        this.ratingsSet = ratingsSet;
+    public void setratings(Set<Ratings> ratings) {
+        this.ratings = ratings;
+    }
+ 
+    public Set<Topics> gettopics() {
+        return topics;
     }
 
-    @XmlTransient
-    public Set<Topics> getTopicsSet() {
-        return topicsSet;
+    public void settopics(Set<Topics> topics) {
+        this.topics = topics;
     }
 
-    public void setTopicsSet(Set<Topics> topicsSet) {
-        this.topicsSet = topicsSet;
+    
+    public Set<ReadPosts> getreadPosts() {
+        return readPosts;
     }
 
-    @XmlTransient
-    public Set<ReadPosts> getReadPostsSet() {
-        return readPostsSet;
+    public void setreadPosts(Set<ReadPosts> readPosts) {
+        this.readPosts = readPosts;
     }
 
-    public void setReadPostsSet(Set<ReadPosts> readPostsSet) {
-        this.readPostsSet = readPostsSet;
+    
+    public Set<Posts> getposts() {
+        return posts;
     }
 
-    @XmlTransient
-    public Set<Posts> getPostsSet() {
-        return postsSet;
-    }
-
-    public void setPostsSet(Set<Posts> postsSet) {
-        this.postsSet = postsSet;
+    public void setposts(Set<Posts> posts) {
+        this.posts = posts;
     }
 
     @Override

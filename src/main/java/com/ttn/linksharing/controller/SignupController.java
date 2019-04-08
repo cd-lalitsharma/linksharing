@@ -27,7 +27,6 @@ public class SignupController {
     public String post_signup_request(@Valid @ModelAttribute SignupCo signupCo,
                                       BindingResult bindingResult,
                                       HttpSession session,
-                                      Model model,
                                       @RequestParam("photo") MultipartFile multipartFile){
         System.out.println(signupCo);
         //checking for errors in request
@@ -53,7 +52,6 @@ public class SignupController {
                 session.setAttribute("login","true");
                 session.setAttribute("userId",savedUser.getId());
                 
-                model.addAttribute("topicCo",new TopicsCo());
                 return "redirect:/dashboard";
                 
             }

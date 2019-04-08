@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,14 +18,17 @@ public class TopicsController {
     TopicsService topicsService;
     
     @PostMapping("/createTopic")
+    @ResponseBody
     public String createTopic(@ModelAttribute TopicsCo topicsCo,
                               BindingResult bindingResult,
                               HttpSession session){
         Integer userId=(Integer) session.getAttribute("userId");
         
         topicsService.saveTopic(topicsCo,userId);
+    
+        System.out.println(topicsCo.getTopicName());
+        System.out.println(topicsCo.getVisibility());
         
-        
-        return "";
+        return "chal gao";
     }
 }

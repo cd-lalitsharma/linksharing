@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "topics")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Topics.findAll", query = "SELECT t FROM Topics t"),
     @NamedQuery(name = "Topics.findById", query = "SELECT t FROM Topics t WHERE t.id = :id"),
@@ -45,15 +44,16 @@ public class Topics implements Serializable {
     private Integer id;
     @Column(name = "name")
     private String name;
+    
     @Column(name = "visibility")
     private String visibility;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "topic")
-    private Set<Invitations> invitationsSet;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private Set<Invitations> invitations;
+    
     @ManyToOne(optional = false)
     private User user;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "topic")
-    private Set<Posts> postsSet;
+    private Set<Posts> posts;
 
     public Topics() {
     }
@@ -85,14 +85,13 @@ public class Topics implements Serializable {
     public void setVisibility(String visibility) {
         this.visibility = visibility;
     }
-
-    @XmlTransient
-    public Set<Invitations> getInvitationsSet() {
-        return invitationsSet;
+ 
+    public Set<Invitations> getinvitations() {
+        return invitations;
     }
 
-    public void setInvitationsSet(Set<Invitations> invitationsSet) {
-        this.invitationsSet = invitationsSet;
+    public void setinvitations(Set<Invitations> invitations) {
+        this.invitations = invitations;
     }
 
     public User getUser() {
@@ -102,14 +101,13 @@ public class Topics implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-
-    @XmlTransient
-    public Set<Posts> getPostsSet() {
-        return postsSet;
+ 
+    public Set<Posts> getposts() {
+        return posts;
     }
 
-    public void setPostsSet(Set<Posts> postsSet) {
-        this.postsSet = postsSet;
+    public void setposts(Set<Posts> posts) {
+        this.posts = posts;
     }
 
     @Override

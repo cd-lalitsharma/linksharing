@@ -48,12 +48,12 @@ public class Posts implements Serializable {
     @Column(name = "description")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
-    private Set<Ratings> ratingsSet;
+    private Set<Ratings> ratings;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
-    private Set<ReadPosts> readPostsSet;
+    private Set<ReadPosts> readPosts;
     @JoinColumn(name = "resources_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Resources resourcesId;
+    private Resources resources;
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Topics topic;
@@ -93,29 +93,29 @@ public class Posts implements Serializable {
     }
 
     @XmlTransient
-    public Set<Ratings> getRatingsSet() {
-        return ratingsSet;
+    public Set<Ratings> getratings() {
+        return ratings;
     }
 
-    public void setRatingsSet(Set<Ratings> ratingsSet) {
-        this.ratingsSet = ratingsSet;
+    public void setratings(Set<Ratings> ratings) {
+        this.ratings = ratings;
     }
 
     @XmlTransient
-    public Set<ReadPosts> getReadPostsSet() {
-        return readPostsSet;
+    public Set<ReadPosts> getreadPosts() {
+        return readPosts;
     }
 
-    public void setReadPostsSet(Set<ReadPosts> readPostsSet) {
-        this.readPostsSet = readPostsSet;
+    public void setreadPosts(Set<ReadPosts> readPosts) {
+        this.readPosts = readPosts;
     }
 
-    public Resources getResourcesId() {
-        return resourcesId;
+    public Resources getresources() {
+        return resources;
     }
 
-    public void setResourcesId(Resources resourcesId) {
-        this.resourcesId = resourcesId;
+    public void setresources(Resources resources) {
+        this.resources = resources;
     }
 
     public Topics gettopic() {
