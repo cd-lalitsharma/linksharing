@@ -1,0 +1,24 @@
+//package com.ttn.linksharing.entity;
+//
+//import com.ttn.linksharing.enums.SeriousnessEnum;
+//
+//import javax.persistence.*;
+//import java.util.List;
+//
+//@Entity
+//public class Subscription {
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Integer id;
+//
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    private User user;
+//
+//    @ManyToOne
+//    private Topics topic;
+//
+//
+//    private SeriousnessEnum topicSeriousness;
+//
+//}

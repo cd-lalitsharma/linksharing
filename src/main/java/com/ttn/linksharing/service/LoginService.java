@@ -1,4 +1,6 @@
 package com.ttn.linksharing.service;
 
-public class LoginService {
+import com.ttn.linksharing.service.impl.LoginServiceInterface;
+
+public class LoginService implements LoginServiceInterface {
 }

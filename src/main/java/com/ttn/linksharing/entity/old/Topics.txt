@@ -1,0 +1,33 @@
+package com.ttn.linksharing.entity;
+
+import com.ttn.linksharing.enums.SeriousnessEnum;
+import com.ttn.linksharing.enums.VisibilityEnum;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+public class Topics {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
+    
+    @Column(unique = true)
+    String name;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
+    
+    private VisibilityEnum topicVisibility;
+    
+//    @OneToMany(cascade = CascadeType.ALL,mappedBy = "table")
+//    List<Subscription> subscribers;
+//
+    @CreationTimestamp
+    private Date createdOn;
+    
+    
+}

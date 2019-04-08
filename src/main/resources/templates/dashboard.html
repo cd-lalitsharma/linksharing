@@ -29,16 +29,16 @@
                 </form>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#"><i class="fas fa-comment-dots"></i><span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#commentModel"><i class="fas fa-comment-dots"></i><span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#"><i class="fas fa-envelope"></i></a>
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#sendInvitationModel"><i class="fas fa-envelope"></i></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#"><i class="fas fa-link"></i></a>
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#linkResourceModel"><i class="fas fa-link"></i></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#"><i class="fas fa-sticky-note"></i> <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#documentResourceModel"><i class="fas fa-sticky-note"></i> <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active ml-3">
                 <img th:src="@{/img/user.png}" class="img-thumbnail" width="50px" height="50px">
@@ -49,8 +49,8 @@
                         Dropdown button
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="#">Settings</a>
                         <a class="dropdown-item" th:href="@{/logout}">Logout</a>
                     </div>
                 </div>
@@ -103,14 +103,129 @@
                             Subscriptions
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <div class="row">
+                                <div class="col-2">
+                                    <img th:src="@{/img/user.png}" height="50px" width="50px"/>
+                                </div>
+                                <div class="col-10">
+                                    <a th:href=@{/link} class="card-title text-info">title</a>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <p class="m-0 p-0">@uday</p>
+                                            <p class="m-0 p-0">unsubsribe</p>
+                                        </div>
+                                        <div class="col-5">
+                                            <p class="m-0 p-0">subscription</p>
+                                            <p class="m-0 p-0">50</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <p class="m-0 p-0">post</p>
+                                            <p class="m-0 p-0">30</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="input-group mb-3">
+                                        <select class="custom-select" id="inputGroupSelect01" >
+                                            <option selected>seriousness</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group mb-3">
+                                        <select class="custom-select" id="inputGroupSelect02" >
+                                            <option selected>access</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-4 p-2">
+                                    <a href="#" data-toggle="modal" data-target="#sendInvitationModel"> <i class="fas fa-envelope fa-lg"></i></a>
+                                    <a href=""> <i class="fas fa-edit fa-lg"></i></a>
+                                    <a href=""> <i class="fas fa-trash-alt fa-lg"></i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--subscription card ends here-->
 
+            <!--Top posts start here-->
+            <div class="row my-1">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            Trending topics
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-2">
+                                    <img th:src="@{/img/user.png}" height="50px" width="50px"/>
+                                </div>
+                                <div class="col-10">
+                                    <a th:href=@{/link} class="card-title text-info">title</a>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <p class="m-0 p-0">@uday</p>
+                                            <p class="m-0 p-0">unsubsribe</p>
+                                        </div>
+                                        <div class="col-5">
+                                            <p class="m-0 p-0">subscription</p>
+                                            <p class="m-0 p-0">50</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <p class="m-0 p-0">post</p>
+                                            <p class="m-0 p-0">30</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="input-group mb-3">
+                                        <select class="custom-select" id="inputGroupSelect01" >
+                                            <option selected>seriousness</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group mb-3">
+                                        <select class="custom-select" id="inputGroupSelect01" >
+                                            <option selected>access</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-4 p-2">
+                                    <a href="#" data-toggle="modal" data-target="#sendInvitationModel"> <i class="fas fa-envelope fa-lg"></i></a>
+                                    <a href=""> <i class="fas fa-edit fa-lg"></i></a>
+                                    <a href=""> <i class="fas fa-trash-alt fa-lg"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--top posts end here-->
         </div>
         <!--inbox-->
         <div class="col-8">
@@ -137,9 +252,9 @@
                                         With supporting text below as a natural lead-in to additionalcontent.
                                     </p>
                                     <span style="float: left">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
+                                                    <i class="fab fa-facebook-f" ></i>
+                                                    <i class="fab fa-twitter"></i>
+                                                    <i class="fab fa-instagram"></i>
                                                 </span>
 
                                     <div style="float: right;">
@@ -261,6 +376,115 @@
 
 
                 </div>
+            </div>
+            <nav aria-label="Page navigation example" class="my-2">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- create topic Modal -->
+<div class="modal fade" id="commentModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="commentModelTitle">Create Topic</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form th:object="${topicco}">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Topic Name</label>
+                        <input type="email" class="form-control" th:field="*{topicName}" id="exampleFormControlInput1" placeholder="topic name">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Visibility</label>
+                        <select class="form-control"  id="exampleFormControlSelect1">
+                            <th:block th:each="visibility :*{visibility}">
+
+                                <option th:field="${visibility}" th:text="{visibility}">visibility</option>
+                            </th:block>
+                        </select>
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Send Invitation model-->
+<div class="modal fade" id="sendInvitationModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="invitationModelTitle">Send Invitation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Link Resource model-->
+<div class="modal fade" id="linkResourceModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="linkResourceTitle">Create Link Resource</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Document resource Modal model-->
+<div class="modal fade" id="documentResourceModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="documentResourceTitle">Create Document Resource</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

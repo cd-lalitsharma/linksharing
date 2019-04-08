@@ -7,5 +7,7 @@ public interface UserRepository extends CrudRepository<User,Integer> {
 
 
     User save(User user);
+    
+    User getUserById(Integer id);
 
 }

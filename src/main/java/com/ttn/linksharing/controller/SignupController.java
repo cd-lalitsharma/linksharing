@@ -1,12 +1,12 @@
 package com.ttn.linksharing.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.ttn.linksharing.co.SignupCo;
+import com.ttn.linksharing.co.TopicsCo;
 import com.ttn.linksharing.entity.User;
-import com.ttn.linksharing.repository.UserRepository;
 import com.ttn.linksharing.service.SignupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +27,7 @@ public class SignupController {
     public String post_signup_request(@Valid @ModelAttribute SignupCo signupCo,
                                       BindingResult bindingResult,
                                       HttpSession session,
+                                      Model model,
                                       @RequestParam("photo") MultipartFile multipartFile){
         System.out.println(signupCo);
         //checking for errors in request
@@ -52,6 +53,7 @@ public class SignupController {
                 session.setAttribute("login","true");
                 session.setAttribute("userId",savedUser.getId());
                 
+                model.addAttribute("topicCo",new TopicsCo());
                 return "redirect:/dashboard";
                 
             }

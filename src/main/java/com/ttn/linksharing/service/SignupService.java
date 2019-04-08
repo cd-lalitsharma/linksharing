@@ -3,6 +3,7 @@ package com.ttn.linksharing.service;
 import com.ttn.linksharing.co.SignupCo;
 import com.ttn.linksharing.entity.User;
 import com.ttn.linksharing.repository.UserRepository;
+import com.ttn.linksharing.service.impl.SignupServiceInterface;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,21 +13,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
 
 import org.slf4j.Logger;
 
 @Service
-public class SignupService {
+public class SignupService implements SignupServiceInterface {
     
     @Autowired
    UserRepository userRepository;
    
    private  static final Logger logger= LoggerFactory.getLogger(SignupService.class);
     
-    public  User saveUser(SignupCo signupCo,
-                          MultipartFile multipartFile,
-                          String uploadPath){
+    public User saveUser(SignupCo signupCo,
+                         MultipartFile multipartFile,
+                         String uploadPath){
     
         User user = new User();
         user.setFirstName(signupCo.getFirstName());
@@ -34,7 +34,7 @@ public class SignupService {
         user.setEmail(signupCo.getEmail());
         user.setUsername(signupCo.getUsername());
         user.setPassword(signupCo.getPassword());
-        user.setCreateDate(new Date());
+//        user.setCreateDate(new Date());
         user.setIsActive(1);
         
         //upload user pic and send email to confirm account
@@ -43,6 +43,7 @@ public class SignupService {
             byte[] bytes= multipartFile.getBytes();
             Path path= Paths.get(uploadPath+multipartFile.getOriginalFilename());
             Files.write(path,bytes);
+            //store only filename
             user.setPhoto(path.toString());
             System.out.println(path.toString());
             
