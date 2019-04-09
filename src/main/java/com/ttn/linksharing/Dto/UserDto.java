@@ -30,6 +30,8 @@ public class UserDto {
     private Set<ReadPosts> readPosts;
     private Set<Posts> posts;
     
+    
+    
     public UserDto() {
     }
     

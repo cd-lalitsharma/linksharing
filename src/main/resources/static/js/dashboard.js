@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+
+    /*Todo: public topics should be unique check*/
     $("#saveTopic").click(function () {
         var topic_visibility=$('#create_topic_visibility').find(":selected").text();
         var topic_name=$("#create_topic_name").val();
@@ -18,21 +20,17 @@ $(document).ready(function () {
             })
                 .done(function( msg ) {
                     $("#create_topic_name").val("");
-                    $('#commentModel').modal('hide')
+                    $('#commentModel').modal('hide');
                     $.notify({
-                        // options
-                        message: 'topic saved successfully'
-                    },{
-                        // settings
+                        message: topic_name+' topic saved successfully'
+                    },{ offset:60,
                         type: 'success'
                     });
                 }).fail(function () {
 
                 $.notify({
-                    // options
                     message: 'unable to save topic'
-                },{
-                    // settings
+                },{ offset:60,
                     type: 'danger'
                 });
             });
@@ -41,5 +39,122 @@ $(document).ready(function () {
     });
 
 
-    $("#addLinkResource").click(function(){alert("askhaskd")});
+    $("#addLinkResource").click(function(){
+
+        var linkTitle=$("#link_resource_name").val();
+        var linkDescription=$("#link_resource_description").val();
+        var linkTopic=$("#link_resource_topic").val();
+        var linkLocation=$("#link_resource_location").val();
+        var selectedTopic=$('#link_resource_topic').find(":selected").text();
+        if (linkTitle != "" &&
+            linkDescription!="" &&
+            linkLocation!="" &&
+            linkTopic!=""){
+
+
+            //check if url is valid or not
+            var urlregex = new RegExp(
+                "^(http:\/\/www.|https:\/\/www.|ftp:\/\/www.|www.){1}([0-9A-Za-z]+\.)");
+
+            var validUrl =urlregex.test(linkLocation);
+            if (validUrl==true){
+                $.ajax({
+                    method: "POST",
+                    url:"/createLinkResource",
+                    data: {postName:linkTitle,
+                        postDescription:linkDescription,
+                        location:linkLocation,
+                        type:"LINK",
+                        topic:linkTopic}
+
+                }).done(function(data){
+                    $("#link_resource_name").val("");
+                    $("#link_resource_description").val("");
+                    $("#link_resource_location").val();
+                    $('#linkResourceModel').modal('hide');
+
+                    $.notify({
+                        message: 'successfully added link resource to topic '+selectedTopic
+                    },{
+                        offset:60,
+                        type: 'success'
+                    });
+
+                }).fail(function(data){
+                    swal("Error saving link resource", "Please try again", "error", {
+                        button: "okay",
+                    });
+                });
+            } else{
+                swal("But the link was not valid", "Please enter a valid link", "error", {
+                    button: "Try again!",
+                });
+            }
+
+        } else{
+            swal("Did You Left Some fields?", "All fields are required to create link resource", "error", {
+                button: "Try again!",
+            });
+        }
+
+    });
+
+    $("#documentResourceForm").submit(function(e){
+        e.preventDefault();
+        var documentTitle=$("#document_resource_name").val();
+        var documentDescription=$("#document_resource_description").val();
+        var documentTopic=$("#document_resource_topic").val();
+        var documentFile=$("#document_resource_location").val();
+        var selectedTopic=$('#document_resource_topic').find(":selected").text();
+        if (documentTitle != "" &&
+            documentDescription!="" &&
+            documentFile!="" &&
+            documentTopic!=""){
+
+            var formData = new FormData(this);
+            formData.append("document_resource_file",$("#document_resource_file")[0].files[0]);
+            formData.append("type","DOCUMENT");
+
+            console.log($("#document_resource_file")[0].files[0]);
+            $.ajax({
+                method: "POST",
+                enctype: "multipart/form-data",
+                url:"/createDocumentResource",
+                data:formData,
+                processData: false,
+                contentType: false
+
+            }).done(function(data){
+                $("#document_resource_name").val("");
+                $("#document_resource_description").val("");
+                $("#document_resource_location").val();
+                $('#documentResourceModel').modal('hide');
+
+                if (data=="success"){
+                    $.notify({
+                        message: 'successfully added document resource to topic '+selectedTopic
+                    },{ offset:60,
+                        type: 'success'
+                    });
+                }else{
+                    swal("Error saving document resource to topic "+selectedTopic, "Please try again", "error", {
+                        button: "okay",
+                    });
+                }
+
+            }).fail(function(data){
+                swal("Error saving document resource", "Please try again", "error", {
+                    button: "okay",
+                });
+            });
+
+
+
+        } else{
+            swal("Did You Left Some fields?", "All fields are required to create link resource", "error", {
+                button: "Try again!",
+            });
+        }
+
+    });
 });

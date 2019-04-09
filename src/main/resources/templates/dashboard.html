@@ -45,8 +45,11 @@
             </li>
             <li class="nav-item">
                 <div class="dropdown">
-                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown button
+                    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            th:text="${currentUser.getFirstName()+' '+currentUser.getLastName()}"
+                    >
+                        Person name
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#">Profile</a>
@@ -74,12 +77,15 @@
                                     <img th:src="@{/img/user.png}" width="100px" height="100px">
                                 </div>
                                 <div class="col-8">
-                                    <h5 class="card-title m-0" id="fullname">Full name</h5>
-                                    <p class="text-info m-0 p-0">@dskd</p>
+                                    <h5 class="card-title m-0" id="fullname"
+                                    th:text="${currentUser.getFirstName()+' '+currentUser.getLastName()}"
+                                    >Full name</h5>
+                                    <p class="text-info m-0 p-0"  th:text="'@'+${currentUser.getUsername()}">@dskd</p>
                                     <div class="row mt-2">
                                         <div class="col-6">
                                             <p class="m-0 p-0">subscription</p>
-                                            <p class="m-0 p-0">50</p>
+                                            <p class="m-0 p-0"
+                                            >50</p>
                                         </div>
                                         <div class="col-6">
                                             <p class="m-0 p-0">Topics</p>
@@ -408,6 +414,9 @@
                     <div class="form-group">
                         <label for="create_topic_name">Topic Name</label>
                         <input type="text" class="form-control" th:field="*{topicName}" id="create_topic_name" placeholder="topic name">
+                        <small id="topicnamehelper" class="form-text text-muted">
+                        Public topics should be unique
+                        </small>
                     </div>
                     <div class="form-group">
                         <label for="create_topic_visibility">Visibility</label>
@@ -462,16 +471,20 @@
                 <form th:object="${postsCo}" >
                     <div class="form-group">
                         <label for="link_resource_name">Link Name</label>
-                        <input type="text" class="form-control" th:field="*{linkName}" id="link_resource_name" placeholder="topic name">
+                        <input type="text" class="form-control" th:field="*{postName}" id="link_resource_name" placeholder="Link name">
                     </div>
                     <div class="form-group">
                         <label for="link_resource_description">Link Description</label>
-                        <input type="text" class="form-control" th:field="*{linkDescription}" id="link_resource_description" placeholder="topic name">
+                        <textarea class="form-control" th:field="*{postDescription}" id="link_resource_description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="link_resource_location">Link Location</label>
+                        <input type="text" class="form-control" th:field="*{location}" id="link_resource_location" placeholder="http://www.example.com">
                     </div>
                     <div class="form-group">
                         <label for="link_resource_topic">Topic</label>
                         <select class="form-control"  id="link_resource_topic" th:field="*{topic}">
-                            <option  th:each="val:${topicsCreatedByUser}" th:value="${val.name}" th:text="${val.name}" >visibility</option>
+                            <option  th:each="val:${topicsCreatedByUser}" th:value="${val.id}" th:text="${val.name}" >visibility</option>
 
                         </select>
                     </div>
@@ -495,12 +508,34 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <form id="documentResourceForm" th:object="${postsCo}" method="post" enctype="multipart/form-data" th:action="@{/createDocumentResource}">
+                    <div class="form-group">
+                        <label for="link_resource_name">Document Name</label>
+                        <input type="text" class="form-control" th:field="*{postName}" id="document_resource_name" placeholder="Description name">
+                    </div>
+                    <div class="form-group">
+                        <label for="document_resource_description">Document Description</label>
+                        <textarea class="form-control" th:field="*{postDescription}" id="document_resource_description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="link_resource_topic">Topic</label>
+                        <select class="form-control"  id="document_resource_topic" th:field="*{topic}">
+                            <option  th:each="val:${topicsCreatedByUser}" th:value="${val.id}" th:text="${val.name}" >visibility</option>
+
+                        </select>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="document_resource_file">
+                        <label class="custom-file-label" for="document_resource_file">Upload Document</label>
+                    </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="addDocumentResource" >Save changes</button>
+                <button type="submit" class="btn btn-primary" id="addDocumentResource" >Save changes</button>
             </div>
+
+            </form>
         </div>
     </div>
 </div>

@@ -1,8 +1,10 @@
 package com.ttn.linksharing.service;
 
 import com.ttn.linksharing.co.TopicsCo;
+import com.ttn.linksharing.entity.Subscriptions;
 import com.ttn.linksharing.entity.Topics;
 import com.ttn.linksharing.entity.User;
+import com.ttn.linksharing.enums.SeriousnessEnum;
 import com.ttn.linksharing.repository.TopicsRepository;
 import com.ttn.linksharing.repository.UserRepository;
 import com.ttn.linksharing.service.impl.TopicsServiceInterface;
@@ -27,6 +29,14 @@ public class TopicsService implements TopicsServiceInterface {
         //converting enum to string because entity has
         // visibility as enum whereas CO has visibility as enum
         topic.setVisibility(topicsCo.getVisibility().toString());
+        
+        Subscriptions subscription = new Subscriptions();
+        subscription.setTopic(topic);
+        subscription.setUser(user);
+        subscription.setTopicSeriousness(SeriousnessEnum.CASUAL.toString());
+        
+        topic.getSubscription().add(subscription);
+        
         topicsRepository.save(topic);
         
         return topic;

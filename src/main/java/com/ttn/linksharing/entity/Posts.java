@@ -7,19 +7,7 @@ package com.ttn.linksharing.entity;
 
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -52,13 +40,13 @@ public class Posts implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
     private Set<ReadPosts> readPosts;
     @JoinColumn(name = "resources_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @OneToOne(optional = false,cascade = CascadeType.ALL)
     private Resources resources;
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,cascade = CascadeType.ALL)
     private Topics topic;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,cascade = CascadeType.ALL)
     private User user;
 
     public Posts() {

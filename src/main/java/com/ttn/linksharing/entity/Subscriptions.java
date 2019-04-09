@@ -6,15 +6,7 @@
 package com.ttn.linksharing.entity;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -23,13 +15,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "subscriptions")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Subscriptions.findAll", query = "SELECT s FROM Subscriptions s"),
-    @NamedQuery(name = "Subscriptions.findById", query = "SELECT s FROM Subscriptions s WHERE s.id = :id"),
-    @NamedQuery(name = "Subscriptions.findByTopicSeriousness", query = "SELECT s FROM Subscriptions s WHERE s.topicSeriousness = :topicSeriousness"),
-    @NamedQuery(name = "Subscriptions.findByUserId", query = "SELECT s FROM Subscriptions s WHERE s.userId = :userId"),
-    @NamedQuery(name = "Subscriptions.findByTopicsId", query = "SELECT s FROM Subscriptions s WHERE s.topicsId = :topicsId")})
 public class Subscriptions implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,59 +24,49 @@ public class Subscriptions implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "topic_seriousness")
-    private Integer topicSeriousness;
-    @Basic(optional = false)
-    @Column(name = "user_id")
-    private int userId;
-    @Basic(optional = false)
-    @Column(name = "topics_id")
-    private int topicsId;
+    private String topicSeriousness;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Topics topic;
 
     public Subscriptions() {
     }
-
-    public Subscriptions(Integer id) {
-        this.id = id;
-    }
-
-    public Subscriptions(Integer id, int userId, int topicsId) {
-        this.id = id;
-        this.userId = userId;
-        this.topicsId = topicsId;
-    }
-
+    
     public Integer getId() {
         return id;
     }
-
+    
     public void setId(Integer id) {
         this.id = id;
     }
-
-    public Integer getTopicSeriousness() {
+    
+    public String getTopicSeriousness() {
         return topicSeriousness;
     }
-
-    public void setTopicSeriousness(Integer topicSeriousness) {
+    
+    public void setTopicSeriousness(String topicSeriousness) {
         this.topicSeriousness = topicSeriousness;
     }
-
-    public int getUserId() {
-        return userId;
+    
+    public User getUser() {
+        return user;
     }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    
+    public void setUser(User user) {
+        this.user = user;
     }
-
-    public int getTopicsId() {
-        return topicsId;
+    
+    public Topics getTopic() {
+        return topic;
     }
-
-    public void setTopicsId(int topicsId) {
-        this.topicsId = topicsId;
+    
+    public void setTopic(Topics topic) {
+        this.topic = topic;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

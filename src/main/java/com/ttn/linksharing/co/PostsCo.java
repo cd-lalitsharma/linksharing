@@ -4,8 +4,8 @@ import com.ttn.linksharing.entity.Topics;
 
 public class PostsCo {
     
-    String linkName;
-    String linkDescription;
+    String postName;
+    String postDescription;
     String location;
     String type;
     Topics topic;
@@ -18,20 +18,20 @@ public class PostsCo {
         this.topic = topic;
     }
     
-    public String getLinkName() {
-        return linkName;
+    public String getPostName() {
+        return postName;
     }
     
-    public void setLinkName(String linkName) {
-        this.linkName = linkName;
+    public void setPostName(String postName) {
+        this.postName = postName;
     }
     
-    public String getLinkDescription() {
-        return linkDescription;
+    public String getPostDescription() {
+        return postDescription;
     }
     
-    public void setLinkDescription(String linkDescription) {
-        this.linkDescription = linkDescription;
+    public void setPostDescription(String postDescription) {
+        this.postDescription = postDescription;
     }
     
     public String getLocation() {
@@ -55,8 +55,8 @@ public class PostsCo {
     @Override
     public String toString() {
         return "PostsCo{" +
-                "linkName='" + linkName + '\'' +
-                ", linkDescription='" + linkDescription + '\'' +
+                "postName='" + postName + '\'' +
+                ", postDescription='" + postDescription + '\'' +
                 ", location='" + location + '\'' +
                 ", type='" + type + '\'' +
                 '}';

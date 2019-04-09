@@ -91,7 +91,19 @@ public class User implements Serializable {
     private Set<ReadPosts> readPosts;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Posts> posts;
-
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<Subscriptions> subscription;
+    
+    
+    public Set<Subscriptions> getSubscription() {
+        return subscription;
+    }
+    
+    public void setSubscription(Set<Subscriptions> subscription) {
+        this.subscription = subscription;
+    }
+    
     public User() {
     }
 

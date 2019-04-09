@@ -6,6 +6,7 @@
 package com.ttn.linksharing.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -54,7 +55,18 @@ public class Topics implements Serializable {
     private User user;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "topic")
     private Set<Posts> posts;
-
+    
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "topic")
+    private Set<Subscriptions> subscription= new HashSet<>();
+    
+    public Set<Subscriptions> getSubscription() {
+        return subscription;
+    }
+    
+    public void setSubscription(Set<Subscriptions> subscription) {
+        this.subscription = subscription;
+    }
+    
     public Topics() {
     }
 
