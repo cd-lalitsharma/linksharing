@@ -2,8 +2,7 @@ package com.ttn.linksharing.Dto;
 
 import com.ttn.linksharing.entity.*;
 
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 public class UserDto {
     
@@ -12,28 +11,26 @@ public class UserDto {
     private String lastName;
     private String username;
     private String email;
-    private String password;
     private String photo;
     private String facebook;
     private String twitter;
     private String instagram;
     private String role;
-    private Integer isActive;
-    private Date createdDate;
     
-    private Set<Invitations> invitations;
+    private List<Invitations> invitations= new ArrayList<>();
     
-    private Set<Ratings> ratings;
+    private List<Ratings> ratings= new ArrayList<>();
     
-    private Set<Topics> topics;
+    private List<Topics> topics= new ArrayList<>();
     
-    private Set<ReadPosts> readPosts;
-    private Set<Posts> posts;
+    private List<ReadPosts> readPosts= new ArrayList<>();
+    private List<Posts> posts= new ArrayList<>();
     
+    private List<Subscriptions> subscriptions= new ArrayList<>();
+
+    private List<Integer> subscribedTopicId= new ArrayList<>();
     
-    
-    public UserDto() {
-    }
+    private List<Posts> unreadPosts=new ArrayList<>();
     
     public Integer getId() {
         return id;
@@ -73,14 +70,6 @@ public class UserDto {
     
     public void setEmail(String email) {
         this.email = email;
-    }
-    
-    public String getPassword() {
-        return password;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
     }
     
     public String getPhoto() {
@@ -123,59 +112,67 @@ public class UserDto {
         this.role = role;
     }
     
-    public Integer getIsActive() {
-        return isActive;
-    }
-    
-    public void setIsActive(Integer isActive) {
-        this.isActive = isActive;
-    }
-    
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-    
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-    
-    public Set<Invitations> getInvitations() {
+    public List<Invitations> getInvitations() {
         return invitations;
     }
     
-    public void setInvitations(Set<Invitations> invitations) {
+    public void setInvitations(List<Invitations> invitations) {
         this.invitations = invitations;
     }
     
-    public Set<Ratings> getRatings() {
+    public List<Ratings> getRatings() {
         return ratings;
     }
     
-    public void setRatings(Set<Ratings> ratings) {
+    public void setRatings(List<Ratings> ratings) {
         this.ratings = ratings;
     }
     
-    public Set<Topics> getTopics() {
+    public List<Topics> getTopics() {
         return topics;
     }
     
-    public void setTopics(Set<Topics> topics) {
+    public void setTopics(List<Topics> topics) {
         this.topics = topics;
     }
     
-    public Set<ReadPosts> getReadPosts() {
+    public List<ReadPosts> getReadPosts() {
         return readPosts;
     }
     
-    public void setReadPosts(Set<ReadPosts> readPosts) {
+    public void setReadPosts(List<ReadPosts> readPosts) {
         this.readPosts = readPosts;
     }
     
-    public Set<Posts> getPosts() {
+    public List<Posts> getPosts() {
         return posts;
     }
     
-    public void setPosts(Set<Posts> posts) {
+    public void setPosts(List<Posts> posts) {
         this.posts = posts;
+    }
+    
+    public List<Subscriptions> getSubscriptions() {
+        return subscriptions;
+    }
+    
+    public void setSubscriptions(List<Subscriptions> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+    
+    public List<Integer> getSubscribedTopicId() {
+        return subscribedTopicId;
+    }
+    
+    public void setSubscribedTopicId(List<Integer> subscribedTopicId) {
+        this.subscribedTopicId = subscribedTopicId;
+    }
+    
+    public List<Posts> getUnreadPosts() {
+        return unreadPosts;
+    }
+    
+    public void setUnreadPosts(List<Posts> unreadPosts) {
+        this.unreadPosts = unreadPosts;
     }
 }

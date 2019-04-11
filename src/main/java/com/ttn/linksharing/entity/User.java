@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -93,11 +94,12 @@ public class User implements Serializable {
     private Set<Posts> posts;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<Subscriptions> subscription;
+    private Set<Subscriptions> subscription= new HashSet<>();
     
     
     public Set<Subscriptions> getSubscription() {
         return subscription;
+        
     }
     
     public void setSubscription(Set<Subscriptions> subscription) {

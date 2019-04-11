@@ -3,6 +3,7 @@ package com.ttn.linksharing.service;
 import com.ttn.linksharing.co.PostsCo;
 import com.ttn.linksharing.entity.Posts;
 import com.ttn.linksharing.entity.Resources;
+import com.ttn.linksharing.entity.Topics;
 import com.ttn.linksharing.entity.User;
 import com.ttn.linksharing.enums.ResourceEnum;
 import com.ttn.linksharing.repository.ResourceRepository;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class ResourceService implements ResourceServiceInterface {
@@ -122,4 +124,5 @@ public class ResourceService implements ResourceServiceInterface {
         
         return post;
     }
+    
 }

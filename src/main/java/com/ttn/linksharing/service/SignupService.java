@@ -44,7 +44,8 @@ public class SignupService implements SignupServiceInterface {
             Path path= Paths.get(uploadPath+multipartFile.getOriginalFilename());
             Files.write(path,bytes);
             //store only filename
-            user.setPhoto(path.toString());
+            String photoPath="uploads/profilePhotos/"+multipartFile.getOriginalFilename();
+            user.setPhoto(photoPath);
             System.out.println(path.toString());
             
         } catch (IOException e) {

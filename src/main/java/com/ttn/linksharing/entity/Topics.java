@@ -54,7 +54,7 @@ public class Topics implements Serializable {
     @ManyToOne(optional = false)
     private User user;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "topic")
-    private Set<Posts> posts;
+    private Set<Posts> posts= new HashSet<>();
     
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "topic")
     private Set<Subscriptions> subscription= new HashSet<>();

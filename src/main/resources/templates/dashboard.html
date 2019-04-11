@@ -41,7 +41,7 @@
                 <a class="nav-link" href="#" data-toggle="modal" data-target="#documentResourceModel"><i class="fas fa-sticky-note"></i> <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active ml-3">
-                <img th:src="@{/img/user.png}" class="img-thumbnail" width="50px" height="50px">
+                <img th:src="@{${currentUser.getPhoto()}}" class="img-thumbnail" width="50px" height="50px">
             </li>
             <li class="nav-item">
                 <div class="dropdown">
@@ -74,7 +74,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-4">
-                                    <img th:src="@{/img/user.png}" width="100px" height="100px">
+                                    <img th:src="@{${currentUser.getPhoto()}}" width="100px" height="100px">
                                 </div>
                                 <div class="col-8">
                                     <h5 class="card-title m-0" id="fullname"
@@ -85,11 +85,14 @@
                                         <div class="col-6">
                                             <p class="m-0 p-0">subscription</p>
                                             <p class="m-0 p-0"
+                                               th:text="${currentUser.getSubscriptions().size()}"
                                             >50</p>
                                         </div>
                                         <div class="col-6">
                                             <p class="m-0 p-0">Topics</p>
-                                            <p class="m-0 p-0">50</p>
+                                            <p class="m-0 p-0"
+                                               th:text="${currentUser.getTopics().size()}"
+                                            >50</p>
                                         </div>
                                     </div>
 
@@ -104,282 +107,237 @@
             <!--subscription card-->
             <div class="row my-1">
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card border-dark">
                         <div class="card-header">
                             Subscriptions
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-2">
-                                    <img th:src="@{/img/user.png}" height="50px" width="50px"/>
+                            <th:block th:each="subscription,itr:${currentUser.getSubscriptions()}">
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img th:src="@{${subscription.getUser().getPhoto()}}" height="50px" width="50px"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <a th:href=@{/link} class="card-title text-info"
+                                        th:text="${subscription.getTopic().getName()}"
+                                        >title</a>
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <th:block th:if="${currentUser.getId()!=subscription.getTopic().getUser().getId()}">
+                                                    <p class="m-0 p-0" th:text="${'unsusbcribe'}">subscribe</p>
+                                                </th:block>
+                                            </div>
+                                            <div class="col-5">
+                                                <p class="m-0 p-0">subscription</p>
+                                                <p class="m-0 p-0"
+                                                   th:text="${subscription.getTopic().getSubscription().size()}"
+                                                >50</p>
+                                            </div>
+                                            <div class="col-2">
+                                                <p class="m-0 p-0">post</p>
+                                                <p class="m-0 p-0"
+                                                   th:text="${subscription.getTopic().getposts().size()}"
+                                                >30</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div class="col-10">
-                                    <a th:href=@{/link} class="card-title text-info">title</a>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <p class="m-0 p-0">@uday</p>
-                                            <p class="m-0 p-0">unsubsribe</p>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="input-group mb-3">
+                                            <select class="custom-select" id="subscriptionSeriousness" >
+
+                                                <option th:each="seriousness:${T(com.ttn.linksharing.enums.SeriousnessEnum).values()}" th:value="${seriousness}" th:text="${seriousness}"
+                                                        th:selected="${seriousness.toString()==subscription.getTopic().getVisibility()}"
+                                                >seriousness</option>
+                                            </select>
                                         </div>
-                                        <div class="col-5">
-                                            <p class="m-0 p-0">subscription</p>
-                                            <p class="m-0 p-0">50</p>
-                                        </div>
-                                        <div class="col-3">
-                                            <p class="m-0 p-0">post</p>
-                                            <p class="m-0 p-0">30</p>
+                                    </div>
+                                    <div class="col-4" data-toggle="tooltip" data-placement="top" title="change access setting">
+                                        <div class="input-group mb-3">
+                                            <select class="custom-select" id="subscriptionAcess" >
+                                                <option th:each="access:${T(com.ttn.linksharing.enums.VisibilityEnum).values()}" th:value="${access}" th:text="${access}"
+                                                th:selected="${access.toString()==subscription.getTopicSeriousness()}"
+                                                >access</option>
+                                            </select>
                                         </div>
                                     </div>
 
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="input-group mb-3">
-                                        <select class="custom-select" id="inputGroupSelect01" >
-                                            <option selected>seriousness</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
+                                    <div class="col-4 p-2">
+                                        <a href="#" data-toggle="modal" data-target="#sendInvitationModel"> <i class="fas fa-envelope fa-lg" data-toggle="tooltip" data-placement="top" title="invite people for this topic"></i></a>
+                                        <th:block th:if="${currentUser.getId()==subscription.getTopic().getUser().getId()}">
+                                            <a href=""> <i class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Edit topic"></i></a>
+                                            <a href=""> <i class="fas fa-trash-alt fa-lg" data-toggle="tooltip" data-placement="top" title="delete topic"></i></a>
+                                        </th:block>
                                     </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="input-group mb-3">
-                                        <select class="custom-select" id="inputGroupSelect02" >
-                                            <option selected>access</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-4 p-2">
-                                    <a href="#" data-toggle="modal" data-target="#sendInvitationModel"> <i class="fas fa-envelope fa-lg"></i></a>
-                                    <a href=""> <i class="fas fa-edit fa-lg"></i></a>
-                                    <a href=""> <i class="fas fa-trash-alt fa-lg"></i></a>
-                                </div>
-                            </div>
+                                </div><hr/>
+                            </th:block>
                         </div>
                     </div>
                 </div>
             </div>
             <!--subscription card ends here-->
 
-            <!--Top posts start here-->
+            <!--Trending topics start here-->
             <div class="row my-1">
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card border-dark">
                         <div class="card-header">
                             Trending topics
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-2">
-                                    <img th:src="@{/img/user.png}" height="50px" width="50px"/>
+                            <th:block  th:each="topic,itr:${trendingTopics}">
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img th:src="@{/img/user.png}" height="50px" width="50px"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <a th:href=@{/link} class="card-title text-info"
+                                        th:text="${topic.getName()}"
+                                        >title</a>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <p class="m-0 p-0"
+                                                   th:text="${topic.getUser().getUsername()}"
+                                                >@uday</p>
+                                                <th:block th:if="${currentUser.getSubscribedTopicId().contains(topic.getId()) and currentUser.getId()!=topic.getUser().getId()}">
+                                                    <p class="m-0 p-0" th:text="${'unsusbcribe'}">subscribe</p>
+                                                </th:block>
+                                                <th:block th:unless="${currentUser.getSubscribedTopicId().contains(topic.getId())}">
+                                                <p class="m-0 p-0" th:text="${'subscribe'}">subscribe</p>
+                                                </th:block>
+
+                                            </div>
+                                            <div class="col-5">
+                                                <p class="m-0 p-0">subscription</p>
+                                                <p class="m-0 p-0"
+                                                   th:text="${topic.getSubscription().size()}"
+                                                >50</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p class="m-0 p-0">post</p>
+                                                <p class="m-0 p-0"
+                                                   th:text="${topic.getposts().size()}"
+                                                >30</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div class="col-10">
-                                    <a th:href=@{/link} class="card-title text-info">title</a>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <p class="m-0 p-0">@uday</p>
-                                            <p class="m-0 p-0">unsubsribe</p>
-                                        </div>
-                                        <div class="col-5">
-                                            <p class="m-0 p-0">subscription</p>
-                                            <p class="m-0 p-0">50</p>
-                                        </div>
-                                        <div class="col-3">
-                                            <p class="m-0 p-0">post</p>
-                                            <p class="m-0 p-0">30</p>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <th:block th:if="${currentUser.getSubscribedTopicId().contains(topic.getId())}">
+                                            <div class="input-group mb-3">
+                                                <select class="custom-select" id="selectSeriousness">
+                                                    <option
+                                                            th:each="val:${T(com.ttn.linksharing.enums.SeriousnessEnum).values()}" th:value="${val}" th:text="${val}"
+
+                                                    >seriousness</option>
+                                                </select>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                    <div class="col-4">
+                                        <th:block th:if="${currentUser.getSubscribedTopicId().contains(topic.getId())}">
+                                            <div class="input-group mb-3">
+                                                <select class="custom-select" id="selectAccess">
+                                                    <option
+                                                            th:each="val:${T(com.ttn.linksharing.enums.VisibilityEnum).values()}" th:value="${val}" th:text="${val}"
+                                                            th:selected="${val.toString()==topic.getVisibility()}"
+                                                    >Access</option>
+                                                </select>
+                                            </div>
+                                        </th:block>
                                     </div>
 
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="input-group mb-3">
-                                        <select class="custom-select" id="inputGroupSelect01" >
-                                            <option selected>seriousness</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
+                                    <div class="col-4 p-2">
+                                        <a href="#" data-toggle="modal" data-target="#sendInvitationModel"> <i class="fas fa-envelope fa-lg" data-toggle="tooltip" data-placement="top" title="invite people for this topic"></i></a>
+                                        <th:block th:if="${currentUser.getId()==topic.getUser().getId()}">
+                                        <a href=""> <i class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Edit topic"></i></a>
+                                        <a href=""> <i class="fas fa-trash-alt fa-lg" data-toggle="tooltip" data-placement="top" title="delete topic"></i></a>
+                                        </th:block>
                                     </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="input-group mb-3">
-                                        <select class="custom-select" id="inputGroupSelect01" >
-                                            <option selected>access</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                </div><hr/>
 
-                                <div class="col-4 p-2">
-                                    <a href="#" data-toggle="modal" data-target="#sendInvitationModel"> <i class="fas fa-envelope fa-lg"></i></a>
-                                    <a href=""> <i class="fas fa-edit fa-lg"></i></a>
-                                    <a href=""> <i class="fas fa-trash-alt fa-lg"></i></a>
-                                </div>
-                            </div>
+                            </th:block>
+
                         </div>
 
                     </div>
                 </div>
             </div>
 
-            <!--top posts end here-->
+            <!--Trending topics end here-->
         </div>
         <!--inbox-->
         <div class="col-8">
             <div class="card border-info">
                 <div class="card-header ">Inbox</div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-2">
-                                    <img class="img-thumbnail" th:src="@{/img/user.png}" width="500px" height="500px">
-                                </div>
-                                <div class="col-10">
-                                    <h5 class="card-title">Full name
-                                        <span class="ml-1">@<a th:href="@{/as}" class="text-info">username</a></span>
-                                        <span style="float: right">
-                                                    <a th:href="@{/as}" class="text-success">topic</a>
+
+                    <th:block th:each="post,itr:${currentUser.getUnreadPosts()}">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img class="img-thumbnail" th:src="@{'/'+${post.getuser().getPhoto()}}" width="500px" height="500px">
+                                    </div>
+                                    <div class="col-10">
+                                        <h5 class="card-title"
+                                        th:text="${post.getTitle()}"
+                                        >Post name
+                                            <span class="ml-1">@<a th:href="@{'/'+${post.getuser().getPhoto()}}" class="text-info">username</a></span>
+                                            <span style="float: right">
+                                                    <a th:href="@{/topic/{topicId}(topicId=${post.getTopic().getId()})}" class="text-success">topic</a>
                                                 </span>
-                                    </h5>
-                                    <p class="card-text text-justify">
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additionalcontent.
-                                    </p>
-                                    <span style="float: left">
-                                                    <i class="fab fa-facebook-f" ></i>
-                                                    <i class="fab fa-twitter"></i>
-                                                    <i class="fab fa-instagram"></i>
+                                        </h5>
+                                        <p class="card-text text-justify"
+                                        th:text="${post.getDescription()}"
+                                        >
+                                            With supporting text below as a natural lead-in to additional
+                                            With supporting text below as a natural lead-in to additional
+                                            With supporting text below as a natural lead-in to additional
+                                            With supporting text below as a natural lead-in to additionalcontent.
+                                        </p>
+                                        <span style="float: left">
+                                                    <a th:href="@{'https://www.facebook.com/dialog/share?app_id=145634995501895&display=popup&href=http://www.linksharing.com/post/'+${post.getId()}}" target="_blank">
+                                                        <i class="fab fa-facebook-f" data-toggle="tooltip" data-placement="top" title="Share this post on Facebook"></i>
+                                                    </a>
+                                                    <a th:href="@{
+                                                    'http://twitter.com/share?text='+${post.getTitle()} +'&url=http://www.linksharing.com/post/'+${post.getId()}+'&hashtags=linksharing,ttn'
+
+                                                    }" target="_blank">
+                                                        <i class="fab fa-twitter" data-toggle="tooltip" data-placement="top" title="Share this post on Twitter"></i>
+                                                    </a>
+                                                    <a th:href="@{
+                                                    'https://www.linkedin.com/shareArticle?mini=true&url=http://www.linksharing.com/post/'+${post.getId()}+'&title='+${post.getTitle()}+'&summary='+${post.getDescription()}+'&source=tothenew.com'
+                                                     }" target="_blank">
+                                                     <i class="fab fa-linkedin" data-toggle="tooltip" data-placement="top" title="Share this post on linkedIn"></i>
+                                                    </a>
                                                 </span>
 
-                                    <div style="float: right;">
-                                    <a class="mx-1" th:href="@{/as}">Download</a>
-                                    <a class="mx-1" th:href="@{/as}">View full site</a>
-                                    <a class="mx-1" th:href="@{/as}">Mark as read</a>
-                                    <a class="mx-1" th:href="@{/as}">visit post</a>
+                                        <div style="float: right;">
+
+                                            <a class="mx-1" th:href="@{${post.getresources().getLocation()}}"
+                                            th:if="${post.getresources().getType()=='LINK'}"
+                                               target="_blank"
+                                            >View full site</a>
+                                            <a class="mx-1" th:href="@{${post.getresources().getLocation()}}"
+                                               th:if="${post.getresources().getType()=='DOCUMENT'}"
+                                               download>Download</a>
+                                            <a class="mx-1" href="#">Mark as read</a>
+                                            <a class="mx-1" th:href="@{/post/{id}(id=${post.getId()})}">visit post</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div><hr>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-2">
-                                    <img class="img-thumbnail" th:src="@{/img/user.png}" width="500px" height="500px">
-                                </div>
-                                <div class="col-10">
-                                    <h5 class="card-title">Full name
-                                        <span class="ml-1">@<a th:href="@{/as}" class="text-info">username</a></span>
-                                        <span style="float: right">
-                                                    <a th:href="@{/as}" class="text-success">topic</a>
-                                                </span>
-                                    </h5>
-                                    <p class="card-text text-justify">
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additionalcontent.
-                                    </p>
-                                    <span style="float: left">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
-                                                </span>
+                        </div><hr>
 
-                                    <div style="float: right;">
-                                        <a class="mx-1" th:href="@{/as}">Download</a>
-                                        <a class="mx-1" th:href="@{/as}">View full site</a>
-                                        <a class="mx-1" th:href="@{/as}">Mark as read</a>
-                                        <a class="mx-1" th:href="@{/as}">visit post</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><hr>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-2">
-                                    <img class="img-thumbnail" th:src="@{/img/user.png}" width="500px" height="500px">
-                                </div>
-                                <div class="col-10">
-                                    <h5 class="card-title">Full name
-                                        <span class="ml-1">@<a th:href="@{/as}" class="text-info">username</a></span>
-                                        <span style="float: right">
-                                                    <a th:href="@{/as}" class="text-success">topic</a>
-                                                </span>
-                                    </h5>
-                                    <p class="card-text text-justify">
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additionalcontent.
-                                    </p>
-                                    <span style="float: left">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
-                                                </span>
-
-                                    <div style="float: right;">
-                                        <a class="mx-1" th:href="@{/as}">Download</a>
-                                        <a class="mx-1" th:href="@{/as}">View full site</a>
-                                        <a class="mx-1" th:href="@{/as}">Mark as read</a>
-                                        <a class="mx-1" th:href="@{/as}">visit post</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><hr>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-2">
-                                    <img class="img-thumbnail" th:src="@{/img/user.png}" width="500px" height="500px">
-                                </div>
-                                <div class="col-10">
-                                    <h5 class="card-title">Full name
-                                        <span class="ml-1">@<a th:href="@{/as}" class="text-info">username</a></span>
-                                        <span style="float: right">
-                                                    <a th:href="@{/as}" class="text-success">topic</a>
-                                                </span>
-                                    </h5>
-                                    <p class="card-text text-justify">
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additional
-                                        With supporting text below as a natural lead-in to additionalcontent.
-                                    </p>
-                                    <span style="float: left">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
-                                                    <img th:src="@{/img/user.png}" width="30px" height="30px">
-                                                </span>
-
-                                    <div style="float: right;">
-                                        <a class="mx-1" th:href="@{/as}">Download</a>
-                                        <a class="mx-1" th:href="@{/as}">View full site</a>
-                                        <a class="mx-1" th:href="@{/as}">Mark as read</a>
-                                        <a class="mx-1" th:href="@{/as}">visit post</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><hr>
-
-
+                    </th:block>
 
                 </div>
             </div>
@@ -484,7 +442,7 @@
                     <div class="form-group">
                         <label for="link_resource_topic">Topic</label>
                         <select class="form-control"  id="link_resource_topic" th:field="*{topic}">
-                            <option  th:each="val:${topicsCreatedByUser}" th:value="${val.id}" th:text="${val.name}" >visibility</option>
+                            <option  th:each="val:${currentUser.getSubscriptions()}" th:value="${val.getTopic().getId()}" th:text="${val.getTopic().getName()}" >Topic name</option>
 
                         </select>
                     </div>
@@ -520,7 +478,7 @@
                     <div class="form-group">
                         <label for="link_resource_topic">Topic</label>
                         <select class="form-control"  id="document_resource_topic" th:field="*{topic}">
-                            <option  th:each="val:${topicsCreatedByUser}" th:value="${val.id}" th:text="${val.name}" >visibility</option>
+                            <option  th:each="val:${currentUser.getSubscriptions()}" th:value="${val.getTopic().getId()}" th:text="${val.getTopic().getName()}" >Topic name</option>
 
                         </select>
                     </div>

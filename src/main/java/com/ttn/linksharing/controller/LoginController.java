@@ -36,8 +36,9 @@ public class LoginController {
             
             return "redirect:/";
         }else{
+            //check if user is active and password or username is correct
             session.setAttribute("login","true");
-            session.setAttribute("userId",1);
+            session.setAttribute("userId",2);
     
             return "redirect:/dashboard";
         }
