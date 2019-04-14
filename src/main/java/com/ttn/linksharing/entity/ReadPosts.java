@@ -5,6 +5,8 @@
  */
 package com.ttn.linksharing.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -50,7 +52,7 @@ public class ReadPosts implements Serializable {
     @Column(name = "is_read")
     private String isRead;
     @Column(name = "read_date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date readDate;
     @JoinColumn(name = "posts_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -94,14 +96,6 @@ public class ReadPosts implements Serializable {
 
     public void setIsRead(String isRead) {
         this.isRead = isRead;
-    }
-
-    public Date getReadDate() {
-        return readDate;
-    }
-
-    public void setReadDate(Date readDate) {
-        this.readDate = readDate;
     }
 
     public Posts getpost() {

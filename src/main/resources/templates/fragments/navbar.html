@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>navbar fragment</title>
+</head>
+<body>
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Link Sharing</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse  mr-5" id="navbarTogglerDemo02">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <form class="form-inline my-2 my-lg-0">
+                        <div class="input-group">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                      </span>
+                            <input type="text" class="form-control" placeholder="Search for Topics..">
+
+                        </div>
+                    </form>
+                </li>
+
+                <th:block th:if="${#session.getAttribute('login')=='true' &&
+                   #session.getAttribute('login')!=null}">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#commentModel"><i class="fas fa-comment-dots"></i><span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#sendInvitationModel"><i class="fas fa-envelope"></i></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#linkResourceModel"><i class="fas fa-link"></i></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#documentResourceModel"><i class="fas fa-sticky-note"></i> <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active ml-3">
+                        <img th:src="@{'/'+${currentUser.getPhoto()}}" class="img-thumbnail" width="50px" height="50px">
+                    </li>
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    th:text="${currentUser.getFirstName()+' '+currentUser.getLastName()}"
+                            >
+                                Person name
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" th:href="@{/user/id/{id}(id=${currentUser.getId()})}">Profile</a>
+                                <th:block th:if="${currentUser.getRole()=='ADMIN'}">
+
+                                    <a class="dropdown-item" th:href="@{/admin/manageUser}">Manage Users</a>
+
+                                </th:block>
+
+                                <a class="dropdown-item" th:href="@{/settings}">Settings</a>
+                                <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                            </div>
+                        </div>
+                    </li>
+                </th:block>
+            </ul>
+
+        </div>
+    </nav>
+</div>
+</body>
+</html>

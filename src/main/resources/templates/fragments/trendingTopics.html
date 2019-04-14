@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>trending topic fragment</title>
+</head>
+<body>
+<div th:fragment="trendingTopics">
+
+    <div class="row my-1">
+        <div class="col-12">
+            <div class="card border-dark">
+                <div class="card-header">
+                    Trending topics
+                </div>
+                <div class="card-body">
+                    <th:block  th:each="topic,itr:${trendingTopics}">
+
+                        <div class="row trendingTopic">
+                            <div class="col-2">
+                                <img th:src="@{'/'+${topic.getUser().getPhoto()}}" height="50px" width="50px"/>
+                            </div>
+                            <div class="col-10">
+                                <a th:href=@{'/topic/id/'+${topic.getId()}} class="card-title text-info"
+                                   th:text="${topic.getName()}"
+                                >title</a>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <a th:href=@{'/user/id/'+${topic.getUser().getId()}}>
+                                            <p class="m-0 p-0 text-primary"
+                                               th:text="${'@'+topic.getUser().getUsername()}"
+                                            >@uday</p>
+                                        </a>
+                                        <th:block th:if="${#session.getAttribute('login')=='true' &&
+                   #session.getAttribute('login')!=null}">
+                                        <th:block th:if="${currentUser.getSubscribedTopicId().contains(topic.getId()) and currentUser.getId()!=topic.getUser().getId()}">
+                                            <a href="#" th:data-topic-id="${topic.getId()}" th:data-subunsub-toggle="${'unsubscribe'}"
+                                               id="toggleSubscription"
+                                               data-toggle="tooltip" data-placement="top" title="unsubscribe this topic"
+                                            > <p class="m-0 p-0" th:text="${'unsubscribe'}">unsubscribe</p></a>
+                                        </th:block>
+                                        <th:block th:unless="${currentUser.getSubscribedTopicId().contains(topic.getId())}">
+                                            <a href="#" th:data-topic-id="${topic.getId()}" th:data-subunsub-toggle="${'subscribe'}"
+                                               id="toggleSubscription"
+                                               data-toggle="tooltip" data-placement="top" title="susbcribe this topic"
+                                            > <p class="m-0 p-0" th:text="${'subscribe'}">subscribe</p></a>
+                                        </th:block>
+                                        </th:block>
+
+                                    </div>
+                                    <div class="col-5">
+                                        <p class="m-0 p-0">subscription</p>
+                                        <p class="m-0 p-0"
+                                           th:text="${topic.getSubscription().size()}"
+                                        >50</p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p class="m-0 p-0">post</p>
+                                        <p class="m-0 p-0"
+                                           th:text="${topic.getposts().size()}"
+                                        >30</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <th:block th:if="${#session.getAttribute('login')=='true' and
+                   #session.getAttribute('login')!=null}">
+                        <div class="row">
+                            <div class="col-4">
+                                <th:block th:if="${currentUser.getSubscribedTopicId().contains(topic.getId())}">
+                                    <div class="input-group mb-3">
+                                        <select class="custom-select" id="selectSeriousness">
+                                            <option
+                                                    th:each="val:${T(com.ttn.linksharing.enums.SeriousnessEnum).values()}" th:value="${val}" th:text="${val}"
+                                                    th:selected="${val.toString()==topic.getName()}"
+                                            >seriousness</option>
+                                        </select>
+                                    </div>
+                                </th:block>
+                            </div>
+                            <div class="col-4">
+                                <th:block th:if="${currentUser.getSubscribedTopicId().contains(topic.getId())}">
+                                    <div class="input-group mb-3">
+                                        <select class="custom-select" id="selectAccess">
+                                            <option
+                                                    th:each="val:${T(com.ttn.linksharing.enums.VisibilityEnum).values()}" th:value="${val}" th:text="${val}"
+                                                    th:selected="${val.toString()==topic.getVisibility()}"
+                                            >Access</option>
+                                        </select>
+                                    </div>
+                                </th:block>
+                            </div>
+
+                            <div class="col-4 p-2">
+                                <a href="#" data-toggle="modal" data-target="#sendInvitationModel"> <i class="fas fa-envelope fa-lg" data-toggle="tooltip" data-placement="top" title="invite people for this topic"></i></a>
+                                <th:block th:if="${#session.getAttribute('login')=='true' and
+                   #session.getAttribute('login')!=null}">
+
+                                <th:block th:if="${currentUser.getId()==topic.getUser().getId()}">
+                                    <a href=""> <i class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Edit topic"></i></a>
+                                    <a href=""> <i class="fas fa-trash-alt fa-lg" data-toggle="tooltip" data-placement="top" title="delete topic"></i></a>
+                                </th:block>
+                                </th:block>
+                            </div>
+                        </div>
+                        </th:block>
+                         <hr/>
+
+
+                    </th:block>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

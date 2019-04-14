@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http:www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>View Topic</title>
     <th:block th:replace="fragments/plugins.html::plugins"></th:block>
 </head>
 <body>
@@ -10,63 +10,42 @@
 <th:block th:replace="fragments/navbar.html::navbar"></th:block>
 
 
-<div class="container-fluid mt-2">
-    <div class="row">
-        <!--profile card-->
-        <div class="col-4">
-            <!--profile card starts now-->
-
-            <th:block th:replace="fragments/profileCard.html::profileCard"></th:block>
-
-            <!--profile card end-->
-
-            <!--subscription card-->
-            <th:block th:replace="fragments/subscriptions.html::susbcriptions"></th:block>
-            <!--subscription card ends here-->
-
-            <!--Trending topics start here-->
-            <th:block th:replace="fragments/trendingTopics.html::trendingTopics"></th:block>
-            <!--Trending topics end here-->
-        </div>
-        <!--inbox-->
-        <div class="col-8">
-            <div class="card border-info">
-                <div class="card-header" id="asdsd">Inbox</div>
-                <div class="card-body" id="inbox">
-                    <h3 class="text-muted text-center my-2" style="display: none" id="emptyInboxMessage">Inbox is empty<br><small>Try subscribing some topics</small></h3>
-                    <th:block th:each="post,itr:${currentUser.getUnreadPosts()}">
-
-                        <div class="row inboxPost mb-3">
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-2">
-                                        <img class="img-thumbnail" th:src="@{'/'+${post.getuser().getPhoto()}}" width="500px" height="500px">
-                                    </div>
-                                    <div class="col-10">
-                                        <div>
-                                            <h5 class="card-title"
-                                                th:text="${post.getTitle()}"
-                                            >Post name</h5>
-                                            <span class="ml-1">@<a th:href="@{'/user/id/'+${post.getuser().getId()}}"
-                                                                 th:text="${post.getuser().getUsername()}"  class="text-info">username</a></span>
-                                            <span style="float: right">
-                                                <a th:href="@{/topic/id/{topicId}(topicId=${post.gettopic().getId()})}"
-                                                   th:text="${post.gettopic().getName()}" class="text-success">topic</a>
-                                            </span>
-
-                                        </div>
+<th:block th:if="${post==null}">
+    <h1 class="text-center text-danger" style="margin-top: 15%">Oops!! No Post with that id ¯\_(ツ)_/¯</h1>
+    <br><a href="/"><h4 class="text-info text-center my-2">homepage?</h4></a>
+</th:block>
 
 
-
-                                        <p class="card-text text-justify"
-                                        th:text="${post.getDescription()}"
-                                        >
-                                            With supporting text below as a natural lead-in to additional
-                                            With supporting text below as a natural lead-in to additional
-                                            With supporting text below as a natural lead-in to additional
-                                            With supporting text below as a natural lead-in to additionalcontent.
-                                        </p>
-                                        <span style="float: left">
+<th:block th:unless="${post==null}">
+    <div class="container-fluid mt-2">
+        <div class="row">
+            <div class="col-8">
+                <div class="row inboxPost mb-3">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-2">
+                                <img class="img-thumbnail" th:src="@{'/'+${post.getuser().getPhoto()}}" width="500px" height="500px">
+                            </div>
+                            <div class="col-10">
+                                <div>
+                                    <h5 class="card-title"
+                                        th:text="${post.getTitle()}"
+                                    >Post name</h5>
+                                    <span class="ml-1">@<a th:href="@{'/user/id/'+${post.getuser().getId()}}"
+                                                           th:text="${post.getuser().getUsername()}" class="text-info">username</a></span>
+                                    <span style="float: right">
+                                                    <a th:href="@{/topic/id/{topicId}(topicId=${post.gettopic().getId()})}"
+                                                       th:text="${post.gettopic().getName()}"
+                                                       class="text-success">topic</a>
+                                                </span>
+                                </div>
+                                <p class="card-text text-justify"
+                                   th:text="${post.getDescription()}"
+                                >
+                                    With supporting text below as a natural lead-in to additional
+                                    With supporting text below as a natural lead-in to additional
+                                </p>
+                                <span style="float: left">
                                                     <a th:href="@{'https://www.facebook.com/dialog/share?app_id=145634995501895&display=popup&href=http://www.linksharing.com/post/'+${post.getId()}}" target="_blank">
                                                         <i class="fab fa-facebook-f" data-toggle="tooltip" data-placement="top" title="Share this post on Facebook"></i>
                                                     </a>
@@ -83,45 +62,40 @@
                                                     </a>
                                                 </span>
 
-                                        <div style="float: right;">
+                                <div style="float: right;">
 
-                                            <a class="mx-1" th:href="@{${post.getresources().getLocation()}}"
-                                            th:if="${post.getresources().getType()=='LINK'}"
-                                               target="_blank"
-                                            >View full site</a>
-                                            <a class="mx-1" th:href="@{${post.getresources().getLocation()}}"
-                                               th:if="${post.getresources().getType()=='DOCUMENT'}"
-                                               id="downloadDocument" download>Download</a>
-                                            <a class="mx-1" href="#" id="markAsRead" th:data-post-id="${post.getId()}">Mark as read</a>
-                                            <a class="mx-1" th:href="@{/post/id/{id}(id=${post.getId()})}">visit post</a>
-                                        </div>
-                                    </div>
+                                    <a class="mx-1" th:href="@{${post.getresources().getLocation()}}"
+                                       th:if="${post.getresources().getType()=='LINK'}"
+                                       target="_blank"
+                                    >View full site</a>
+                                    <a class="mx-1" th:href="@{${post.getresources().getLocation()}}"
+                                       th:if="${post.getresources().getType()=='DOCUMENT'}"
+                                       id="downloadDocument" download>Download</a>
+                                    <th:block th:if="${#session.getAttribute('login')=='true' and
+                   #session.getAttribute('login')!=null}">
+                                        <a class="mx-1" href="#" id="markAsRead" th:data-post-id="${post.getId()}">Mark as read</a>
+
+                                        <a class="mx-1" href="#" id="delete"
+                                           th:if="${post.getuser().getId()==currentUser.getId() or currentUser.getRole()=='ADMIN'}"
+                                           th:data-post-id="${post.getId()}">Delete</a>
+
+                                    </th:block>
                                 </div>
                             </div>
                         </div>
-
-                    </th:block>
-
+                    </div>
                 </div>
+
             </div>
-            <nav aria-label="Page navigation example" class="my-2">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
+            <div class="col-4">
+                <th:block th:replace="fragments/trendingTopics.html::trendingTopics"></th:block>
+            </div>
         </div>
     </div>
-</div>
+</th:block>
 
-<th:block th:if="${#session.getAttribute('login')=='true' &&
+
+<th:block th:if="${#session.getAttribute('login')=='true' and
                    #session.getAttribute('login')!=null}">
     <!-- create topic Modal -->
     <div class="modal fade" id="commentModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

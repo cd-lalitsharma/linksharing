@@ -127,7 +127,7 @@ $(document).ready(function () {
             }).done(function(data){
                 $("#document_resource_name").val("");
                 $("#document_resource_description").val("");
-                $("#document_resource_location").val();
+                $("#document_resource_location").val("");
                 $('#documentResourceModel').modal('hide');
 
                 if (data=="success"){
@@ -157,4 +157,166 @@ $(document).ready(function () {
         }
 
     });
+
+
+    $(".inboxPost  #markAsRead").click(function () {
+
+        /*
+         alert($("#inbox").children().length);
+
+             $(this).parent().parent().parent().parent().parent().fadeOut("normal",function () {
+                 $(this).remove();
+             });
+
+           alert($("#inbox").children().length);*/
+
+        let postToMarkAsRead= $(this).attr("data-post-id");
+        let currentPost=$(this).parent().parent().parent().parent().parent();
+
+        $.ajax({
+            method:"post",
+            url:"/markPostAsRead",
+            data:{postId:postToMarkAsRead},
+        }).done(function (data) {
+            if (data=="success"){
+               $(this).html("asdasdsa");
+                currentPost.remove();
+
+                $.notify({
+                    message: 'successfully marked post as read'
+                },{ offset:60,
+                    type: 'success'
+                });
+
+
+                if ($("#inbox").children().length==1){
+                    $("#inbox  #emptyInboxMessage").css("display","block");
+                }else {
+                    $("#inbox  #emptyInboxMessage").css("display","none");
+
+                }
+            } else{
+                $.notify({
+                    message: 'unable to mark post as read'
+                },{ offset:60,
+                    type: 'error'
+                });
+            }
+        }).fail(function(){
+
+            $.notify({
+                message: 'unable to mark post as read'
+            },{ offset:60,
+                type: 'error'
+            });
+
+        });
+
+
+    });
+
+    if ($("#inbox").children().length==1){
+        $("#inbox  #emptyInboxMessage").css("display","block");
+    }else {
+        $("#inbox  #emptyInboxMessage").css("display","none");
+
+    }
+
+
+    $(".trendingTopic #toggleSubscription").click(function(e){
+        e.preventDefault();
+
+        let currentTopic=$(this);
+        let topicId=$(this).attr("data-topic-id");
+        let toggleOption=$(this).attr("data-subunsub-toggle");
+
+        if (toggleOption=="subscribe"){
+
+            currentTopic.children().html("unsubscribe");
+            currentTopic.attr("data-subunsub-toggle","unsubscribe");
+
+            $.ajax({
+                method:"POST",
+                url:"/subscribeTopic",
+                data:{topicId:topicId}
+            }).done(function(data){
+
+                if (data=="success"){
+                    alert("sub "+data);
+
+                    $.notify({
+                        message: 'topic successfully subscribed'
+                    },{ offset:60,
+                        type: 'success'
+                    });
+                }else{
+                    alert("sub "+data);
+
+                    $.notify({
+                        message: 'unexpected error in subscribing topic'
+                    },{ offset:60,
+                        type: 'error'
+                    });
+                }
+
+            }).fail(function(){
+
+                $.notify({
+                    message: 'internal error in subscribing topic'
+                },{ offset:60,
+                    type: 'error'
+                });
+            });
+
+
+        } else if (toggleOption=="unsubscribe") {
+            currentTopic.children().html("subscribe");
+            currentTopic.attr("data-subunsub-toggle","subscribe");
+
+            $.ajax({
+                method:"POST",
+                url:"/unsubscribeTopic",
+                data:{topicId:topicId}
+            }).done(function(data){
+
+                if (data=="success"){
+
+                    alert("unsub  "+data);
+
+                    $.notify({
+                        message: 'topic successfully unsubscribed'
+                    },{ offset:60,
+                        type: 'success'
+                    });
+                }else{
+                    alert("unsub  "+data);
+
+                    $.notify({
+                        message: 'unexpected error in subscribing topic '+data
+                    },{ offset:60,
+                        type: 'error'
+                    });
+                }
+
+            }).fail(function(data){
+
+                $.notify({
+                    message: 'internal error in subscribing topic'+data
+                },{ offset:60,
+                    type: 'error'
+                });
+            });
+
+        }else{
+            $.notify({
+                message: 'wrong toggle option'
+            },{ offset:60,
+                type: 'error'
+            });
+        }
+
+    });
+
+
+     
 });

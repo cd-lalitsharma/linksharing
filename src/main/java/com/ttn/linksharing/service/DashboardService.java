@@ -40,7 +40,10 @@ public class DashboardService implements DashboardServiceInterface {
        return subscriptionRepository.findSubscriptionsByUserId(userId);
     }
     
-    public List<Topics> trendingTopics(){return resourceRepository.trendingTopics();}
+    public List<Topics> trendingTopics(){
+        
+        return resourceRepository.trendingTopics();
+    }
     
     
     public List<Posts> getUnreadPosts(User currentUser){
@@ -68,6 +71,7 @@ public class DashboardService implements DashboardServiceInterface {
     
     public UserDto prepareUserDto(User currentUser) {
         UserDto userDto =new UserDto();
+        List<Integer> unreadPostsId= new ArrayList<>();
         
         userDto.setId(currentUser.getId());
         userDto.setEmail(currentUser.getEmail());
@@ -84,6 +88,10 @@ public class DashboardService implements DashboardServiceInterface {
         userDto.getTopics().addAll(currentUser.gettopics());
         userDto.setSubscribedTopicId(this.getSubscribedTopicId(currentUser.getId()));
         userDto.setUnreadPosts(this.getUnreadPosts(currentUser));
+    
+        userDto.getUnreadPosts().forEach(e->unreadPostsId.add(e.getId()));
+        userDto.setUnreadPostsId(unreadPostsId);
+        
         userDto.setSubscriptions(this.getUserSubscriptions(currentUser.getId()));
         
         return userDto;

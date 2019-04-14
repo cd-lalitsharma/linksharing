@@ -2,6 +2,7 @@ package com.ttn.linksharing.service;
 
 import com.ttn.linksharing.co.SignupCo;
 import com.ttn.linksharing.entity.User;
+import com.ttn.linksharing.enums.RolesEnum;
 import com.ttn.linksharing.repository.UserRepository;
 import com.ttn.linksharing.service.impl.SignupServiceInterface;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,7 @@ public class SignupService implements SignupServiceInterface {
         user.setEmail(signupCo.getEmail());
         user.setUsername(signupCo.getUsername());
         user.setPassword(signupCo.getPassword());
+        user.setRole(RolesEnum.USER.toString());
 //        user.setCreateDate(new Date());
         user.setIsActive(1);
         

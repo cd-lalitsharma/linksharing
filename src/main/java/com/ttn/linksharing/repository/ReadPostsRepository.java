@@ -8,4 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface ReadPostsRepository extends CrudRepository<ReadPosts,Integer> {
 
     Integer countByUserAndPost(User user, Posts post);
+    
+    ReadPosts save(ReadPosts readPost);
 }

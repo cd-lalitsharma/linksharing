@@ -15,4 +15,8 @@ public interface ResourceRepository extends CrudRepository<Posts,Integer> {
     @Query("select p.topic from Posts p group by p.topic order by count (p.topic) desc")
     List<Topics> trendingTopics();
     
+    Posts getPostsById(Integer postId);
+    
+    
+    
 }

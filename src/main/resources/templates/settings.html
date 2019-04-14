@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+    <th:block th:replace="fragments/plugins.html::plugins"></th:block>
+</head>
+<body>
+<!--navbar-->
+<th:block th:replace="fragments/navbar.html::navbar"></th:block>
+
+
+<div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-4">
+            <!--user profile card starts now-->
+            <th:block th:replace="fragments/profileCard.html::profileCard"></th:block>
+
+            <!--user profile card end-->
+
+            <!--created topic card-->
+            <div class="row my-1">
+                <div class="col-12">
+                    <div class="card border-dark">
+                        <div class="card-header">
+                            Topics
+                        </div>
+                        <div class="card-body">
+                            <th:block th:each="topic,itr:${currentUser.getTopics()}">
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img th:src="@{'/'+${topic.getUser().getPhoto()}}" height="50px" width="50px"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <a th:href=@{'/topic/id/'+${topic.getId()}} class="card-title text-info"
+                                           th:text="${topic.getName()}"
+                                        >title</a>
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <a th:href="@{/user/id/{id}(id=${topic.getUser().getId()})}">
+
+                                                    <p class="m-0 p-0 text-primary"
+                                                       th:text="'@'+${topic.getUser().getUsername()}"
+                                                    >@uday</p>
+                                                </a>
+
+                                            </div>
+                                            <div class="col-5">
+                                                <p class="m-0 p-0">subscription</p>
+                                                <p class="m-0 p-0"
+                                                   th:text="${topic.getSubscription().size()}"
+                                                >50</p>
+                                            </div>
+                                            <div class="col-4">
+                                                <p class="m-0 p-0">post</p>
+                                                <p class="m-0 p-0"
+                                                   th:text="${topic.getposts().size()}"
+                                                >30</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <th:block th:if="${currentUser.getSubscribedTopicId().contains(topic.getId())}">
+                                            <div class="input-group mb-3">
+                                                <select class="custom-select" id="selectSeriousness">
+                                                    <option
+                                                            th:each="val:${T(com.ttn.linksharing.enums.SeriousnessEnum).values()}" th:value="${val}" th:text="${val}"
+                                                            th:selected="${val.toString()==topic.getName()}"
+                                                    >seriousness</option>
+                                                </select>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                    <div class="col-4">
+                                        <th:block th:if="${currentUser.getSubscribedTopicId().contains(topic.getId())}">
+                                            <div class="input-group mb-3">
+                                                <select class="custom-select" id="selectAccess">
+                                                    <option
+                                                            th:each="val:${T(com.ttn.linksharing.enums.VisibilityEnum).values()}" th:value="${val}" th:text="${val}"
+                                                            th:selected="${val.toString()==topic.getVisibility()}"
+                                                    >Access</option>
+                                                </select>
+                                            </div>
+                                        </th:block>
+                                    </div>
+
+                                    <div class="col-4 p-2">
+                                        <a href="#" data-toggle="modal" data-target="#sendInvitationModel"> <i class="fas fa-envelope fa-lg" data-toggle="tooltip" data-placement="top" title="invite people for this topic"></i></a>
+                                        <th:block th:if="${currentUser.getId()==topic.getUser().getId()}">
+                                            <a href=""> <i class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Edit topic"></i></a>
+                                            <a href=""> <i class="fas fa-trash-alt fa-lg" data-toggle="tooltip" data-placement="top" title="delete topic"></i></a>
+                                        </th:block>
+                                    </div>
+                                </div><hr/>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--created topic card ends here-->
+        </div>
+        <!--edit profile-->
+        <div class="col-8">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card border-info">
+                            <div class="card-header">Profile</div>
+                            <div class="card-body">
+                                <form th:object="${settingCo}"  th:action="@{/updateProfile}"
+                                      enctype="multipart/form-data" method="post">
+                                    <div class="form-group row">
+                                        <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="firstName"
+                                                   th:name="firstName"
+                                                   th:value="${currentUser.getFirstName()}" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="lastName"
+                                                   th:name="lastName"
+                                                   th:value="${currentUser.getLastName()}" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="username" class="col-sm-2 col-form-label">Username</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="userName"
+                                                   th:name="userName"
+                                                   th:value="${currentUser.getUsername()}">
+                                        </div>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input"  name="profilePhoto" id="profilePhoto">
+                                        <label class="custom-file-label" for="profilePhoto">profile pic</label>
+                                    </div>
+                                    <button class="btn btn-primary mt-2" type="submit">Update Profile</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--edit password-->
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div class="card border-info">
+                            <div class="card-header">Password</div>
+                            <div class="card-body">
+                                <form th:object="${passwordCo}" th:action="@{/updatePassword}" method="post">
+                                    <div class="form-group row">
+                                        <label for="newpassword" class="col-sm-2 col-form-label">New Password</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" th:field="*{password}" id="newpassword" placeholder="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="confirmpassword" class="col-sm-2 col-form-label">Confirm Password</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" id="confirmpassword" placeholder="confirm password">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Update password</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+        </div>
+
+        <!--topic posts end-->
+    </div>
+</div>
+
+<th:block th:if="${#session.getAttribute('login')=='true' &&
+                   #session.getAttribute('login')!=null}">
+    <!-- create topic Modal -->
+    <div class="modal fade" id="commentModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="commentModelTitle">Create Topic</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:object="${topicCo}" >
+                        <div class="form-group">
+                            <label for="create_topic_name">Topic Name</label>
+                            <input type="text" class="form-control" th:field="*{topicName}" id="create_topic_name" placeholder="topic name">
+                            <small id="topicnamehelper" class="form-text text-muted">
+                                Public topics should be unique
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="create_topic_visibility">Visibility</label>
+                            <select class="form-control"  id="create_topic_visibility">
+                                <option th:each="val:${T(com.ttn.linksharing.enums.VisibilityEnum).values()}" th:value="${val}" th:text="${val}" >visibility</option>
+
+                            </select>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveTopic">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Send Invitation model-->
+    <div class="modal fade" id="sendInvitationModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="invitationModelTitle">Send Invitation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link Resource model-->
+    <div class="modal fade" id="linkResourceModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="linkResourceTitle">Create Link Resource</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:object="${postsCo}" >
+                        <div class="form-group">
+                            <label for="link_resource_name">Link Name</label>
+                            <input type="text" class="form-control" th:field="*{postName}" id="link_resource_name" placeholder="Link name">
+                        </div>
+                        <div class="form-group">
+                            <label for="link_resource_description">Link Description</label>
+                            <textarea class="form-control" th:field="*{postDescription}" id="link_resource_description" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="link_resource_location">Link Location</label>
+                            <input type="text" class="form-control" th:field="*{location}" id="link_resource_location" placeholder="http://www.example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="link_resource_topic">Topic</label>
+                            <select class="form-control"  id="link_resource_topic" th:field="*{topic}">
+                                <option  th:each="val:${currentUser.getSubscriptions()}" th:value="${val.getTopic().getId()}" th:text="${val.getTopic().getName()}" >Topic name</option>
+
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addLinkResource">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Document resource Modal model-->
+    <div class="modal fade" id="documentResourceModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="documentResourceTitle">Create Document Resource</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="documentResourceForm" th:object="${postsCo}" method="post" enctype="multipart/form-data" th:action="@{/createDocumentResource}">
+                        <div class="form-group">
+                            <label for="link_resource_name">Document Name</label>
+                            <input type="text" class="form-control" th:field="*{postName}" id="document_resource_name" placeholder="Description name">
+                        </div>
+                        <div class="form-group">
+                            <label for="document_resource_description">Document Description</label>
+                            <textarea class="form-control" th:field="*{postDescription}" id="document_resource_description" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="link_resource_topic">Topic</label>
+                            <select class="form-control"  id="document_resource_topic" th:field="*{topic}">
+                                <option  th:each="val:${currentUser.getSubscriptions()}" th:value="${val.getTopic().getId()}" th:text="${val.getTopic().getName()}" >Topic name</option>
+
+                            </select>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="document_resource_file">
+                            <label class="custom-file-label" for="document_resource_file">Upload Document</label>
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="addDocumentResource" >Save changes</button>
+                </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+<script src="/js/dashboard.js"></script>
+<script src="/js/setting.js"></script>
+</body>
+</html>

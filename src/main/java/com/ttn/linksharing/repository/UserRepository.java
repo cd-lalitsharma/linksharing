@@ -15,5 +15,8 @@ public interface UserRepository extends CrudRepository<User,Integer> {
     
     User getUserById(Integer id);
     
+    
+    @Query("select u from User u")
+    List<User> getAllUsers();
 
 }

@@ -27,7 +27,9 @@ public class UserDto {
     private List<Posts> posts= new ArrayList<>();
     
     private List<Subscriptions> subscriptions= new ArrayList<>();
-
+    private List<Integer> unreadPostsId= new ArrayList<>();
+    
+    
     private List<Integer> subscribedTopicId= new ArrayList<>();
     
     private List<Posts> unreadPosts=new ArrayList<>();
@@ -50,6 +52,14 @@ public class UserDto {
     
     public String getLastName() {
         return lastName;
+    }
+    
+    public List<Integer> getUnreadPostsId() {
+        return unreadPostsId;
+    }
+    
+    public void setUnreadPostsId(List<Integer> unreadPostsId) {
+        this.unreadPostsId = unreadPostsId;
     }
     
     public void setLastName(String lastName) {

@@ -1,11 +1,9 @@
 package com.ttn.linksharing.service;
 
 import com.ttn.linksharing.co.PostsCo;
-import com.ttn.linksharing.entity.Posts;
-import com.ttn.linksharing.entity.Resources;
-import com.ttn.linksharing.entity.Topics;
-import com.ttn.linksharing.entity.User;
+import com.ttn.linksharing.entity.*;
 import com.ttn.linksharing.enums.ResourceEnum;
+import com.ttn.linksharing.repository.ReadPostsRepository;
 import com.ttn.linksharing.repository.ResourceRepository;
 import com.ttn.linksharing.repository.UserRepository;
 import com.ttn.linksharing.service.impl.ResourceServiceInterface;
@@ -34,6 +32,9 @@ public class ResourceService implements ResourceServiceInterface {
     
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    ReadPostsRepository readPostsRepository;
     
     public Posts saveLinkPost(PostsCo postsCo,Integer userId){
         logger.info("inside save post function of resource service");
@@ -101,7 +102,7 @@ public class ResourceService implements ResourceServiceInterface {
     
             logger.info("saved path is "+path.toString());
             
-            uploadedUrlOfDocument=path.toString();
+            uploadedUrlOfDocument="uploads/documents/"+multipartFile.getOriginalFilename();
     
             resource.setLocation(uploadedUrlOfDocument);
         
@@ -125,4 +126,26 @@ public class ResourceService implements ResourceServiceInterface {
         return post;
     }
     
+    public ReadPosts markPostAsRead(Integer userId, Integer postId) {
+        
+        Posts post=resourceRepository.getPostsById(postId);
+        User user =userRepository.getUserById(userId);
+        Resources resource = post.getresources();
+    
+        ReadPosts readPost = new ReadPosts();
+        readPost.setIsRead("TRUE");
+        readPost.setpost(post);
+        readPost.setuser(user);
+        readPost.setPostsResourcesId(resource.getId());
+        
+        ReadPosts savedReadPost =readPostsRepository.save(readPost);
+        
+        return savedReadPost;
+        
+    }
+    
+    public Posts getPostById(Integer postId) {
+        
+        return resourceRepository.getPostsById(postId);
+    }
 }
