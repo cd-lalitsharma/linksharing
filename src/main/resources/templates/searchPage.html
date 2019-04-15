@@ -2,63 +2,45 @@
 <html lang="en" xmlns:th="http:www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>View Post</title>
+    <title>Search Results</title>
     <th:block th:replace="fragments/plugins.html::plugins"></th:block>
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <!--navbar-->
 <th:block th:replace="fragments/navbar.html::navbar"></th:block>
 
 
-<th:block th:if="${post==null}">
-    <h1 class="text-center text-danger" style="margin-top: 15%">Oops!! No Post with that id ¯\_(ツ)_/¯</h1>
-    <br><a href="/"><h4 class="text-info text-center my-2">homepage?</h4></a>
-</th:block>
+<div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-6">
+            <div class="card border-primary">
+                <div class="card-header">Posts result</div>
+                <div class="card-body text-success">
+                    <div class="row">
+                        <div class="col-12">
+                            <th:block th:each="post,itr:${postList}">
 
-
-<th:block th:unless="${post==null}">
-    <div class="container-fluid mt-2">
-
-        <div class="row">
-            <div class="col-8">
-                <div class="row inboxPost mb-3">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-2">
-                                <img class="img-thumbnail" th:src="@{'/'+${post.getuser().getPhoto()}}" width="500px" height="500px">
-                            </div>
-                            <div class="col-10">
-                                <div style="float: right;">
-                                    <div class="rate">
-                                        <i class="btn p-0 m-0 fa fa-star-o star s1" id="s1" getvalue='1' aria-hidden="true"></i>
-                                        <i class="btn p-0 m-0 fa fa-star-o star s2" getvalue='2' aria-hidden="true"></i>
-                                        <i class="btn p-0 m-0 fa fa-star-o star s3" getvalue='3' aria-hidden="true"></i>
-                                        <i class="btn p-0 m-0 fa fa-star-o star s4" getvalue='4' aria-hidden="true"></i>
-                                        <i class="btn p-0 m-0 fa fa-star-o star s5" getvalue='5' aria-hidden="true"></i>
-                                        <span id="erating"></span>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <img class="img-thumbnail" th:src="@{'/'+${post.getuser().getPhoto()}}">
                                     </div>
-                                </div>
-                                <div>
-                                    <h5 class="card-title"
-                                        th:text="${post.getTitle()}"
-                                    >Post name</h5>
-                                    <span class="ml-1">@<a th:href="@{'/user/id/'+${post.getuser().getId()}}"
-                                                           th:text="${post.getuser().getUsername()}" class="text-info">username</a></span>
-                                    <span style="float: right">
-                                                    <a th:href="@{/topic/id/{topicId}(topicId=${post.gettopic().getId()})}"
-                                                       th:text="${post.gettopic().getName()}"
-                                                       class="text-success">topic</a>
-                                                </span>
-
-                                </div>
-                                <p class="card-text text-justify"
-                                   th:text="${post.getDescription()}"
-                                >
-                                    With supporting text below as a natural lead-in to additional
-                                    With supporting text below as a natural lead-in to additional
-                                </p>
-                                <span style="float: left">
+                                    <div class="col-8">
+                                        <div>
+                                            <h5 class="card-title" th:text="${post.getTitle()}">Special</h5>
+                                            <span class="ml-1">@<a th:href="@{'/user/id/'+${post.getuser().getId()}}"
+                                                                   th:text="${post.getuser().getUsername()}"
+                                                                   class="text-info">username</a></span>
+                                            <span style="float: right">
+                                                        <a th:href="@{'topic/id/'+${post.gettopic().getId()}}"
+                                                           th:text="${post.gettopic().getName()}"
+                                                           class="text-success">topic</a>
+                                                        </span>
+                                        </div>
+                                        <p class="card-text text-justify" th:text="${post.getDescription()}">
+                                            With supporting text below as a natural lead-in to additional
+                                            With supporting text below as a natural lead-in to additional
+                                        </p>
+                                        <span style="float: left">
                                                     <a th:href="@{'https://www.facebook.com/dialog/share?app_id=145634995501895&display=popup&href=http://www.linksharing.com/post/'+${post.getId()}}" target="_blank">
                                                         <i class="fab fa-facebook-f" data-toggle="tooltip" data-placement="top" title="Share this post on Facebook"></i>
                                                     </a>
@@ -74,41 +56,126 @@
                                                      <i class="fab fa-linkedin" data-toggle="tooltip" data-placement="top" title="Share this post on linkedIn"></i>
                                                     </a>
                                                 </span>
+                                        <span style="float: right"><a th:href="@{'post/id/'+${post.getId()}}">visit post</a></span>
 
-                                <div style="float: right;">
+                                    </div>
+                                </div><hr>
 
-                                    <a class="mx-1" th:href="@{${post.getresources().getLocation()}}"
-                                       th:if="${post.getresources().getType()=='LINK'}"
-                                       target="_blank"
-                                    >View full site</a>
-                                    <a class="mx-1" th:href="@{${post.getresources().getLocation()}}"
-                                       th:if="${post.getresources().getType()=='DOCUMENT'}"
-                                       id="downloadDocument" download>Download</a>
+                            </th:block>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card border-info">
+                <div class="card-header">Topics results</div>
+                <div class="card-body text-dark">
+                    <th:block  th:each="topic,itr:${topicList}">
+
+                        <div class="row trendingTopic">
+                            <div class="col-2">
+                                <img th:src="@{'/'+${topic.getUser().getPhoto()}}" height="50px" width="50px"/>
+                            </div>
+                            <div class="col-10">
+                                <a th:href=@{'/topic/id/'+${topic.getId()}} class="card-title text-info"
+                                   th:text="${topic.getName()}"
+                                >title</a>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <a th:href=@{'/user/id/'+${topic.getUser().getId()}}>
+                                            <p class="m-0 p-0 text-primary"
+                                               th:text="${'@'+topic.getUser().getUsername()}"
+                                            >@uday</p>
+                                        </a>
+                                        <th:block th:if="${#session.getAttribute('login')=='true' &&
+                   #session.getAttribute('login')!=null}">
+                                            <th:block th:if="${currentUser.getSubscribedTopicId().contains(topic.getId()) and currentUser.getId()!=topic.getUser().getId()}">
+                                                <a href="#" th:data-topic-id="${topic.getId()}" th:data-subunsub-toggle="${'unsubscribe'}"
+                                                   id="toggleSubscription"
+                                                   data-toggle="tooltip" data-placement="top" title="unsubscribe this topic"
+                                                > <p class="m-0 p-0" th:text="${'unsubscribe'}">unsubscribe</p></a>
+                                            </th:block>
+                                            <th:block th:unless="${currentUser.getSubscribedTopicId().contains(topic.getId())}">
+                                                <a href="#" th:data-topic-id="${topic.getId()}" th:data-subunsub-toggle="${'subscribe'}"
+                                                   id="toggleSubscription"
+                                                   data-toggle="tooltip" data-placement="top" title="susbcribe this topic"
+                                                > <p class="m-0 p-0" th:text="${'subscribe'}">subscribe</p></a>
+                                            </th:block>
+                                        </th:block>
+
+                                    </div>
+                                    <div class="col-5">
+                                        <p class="m-0 p-0">subscription</p>
+                                        <p class="m-0 p-0"
+                                           th:text="${topic.getSubscription().size()}"
+                                        >50</p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p class="m-0 p-0">post</p>
+                                        <p class="m-0 p-0"
+                                           th:text="${topic.getposts().size()}"
+                                        >30</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <th:block th:if="${#session.getAttribute('login')=='true' and
+                   #session.getAttribute('login')!=null}">
+                            <div class="row">
+                                <div class="col-4">
+                                    <th:block th:if="${currentUser.getSubscribedTopicId().contains(topic.getId())}">
+                                        <div class="input-group mb-3">
+                                            <select class="custom-select" id="selectSeriousness">
+                                                <option
+                                                        th:each="val:${T(com.ttn.linksharing.enums.SeriousnessEnum).values()}" th:value="${val}" th:text="${val}"
+                                                        th:selected="${val.toString()==topic.getName()}"
+                                                >seriousness</option>
+                                            </select>
+                                        </div>
+                                    </th:block>
+                                </div>
+                                <div class="col-4">
+                                    <th:block th:if="${currentUser.getSubscribedTopicId().contains(topic.getId())}">
+                                        <div class="input-group mb-3">
+                                            <select class="custom-select" id="selectAccess">
+                                                <option
+                                                        th:each="val:${T(com.ttn.linksharing.enums.VisibilityEnum).values()}" th:value="${val}" th:text="${val}"
+                                                        th:selected="${val.toString()==topic.getVisibility()}"
+                                                >Access</option>
+                                            </select>
+                                        </div>
+                                    </th:block>
+                                </div>
+
+                                <div class="col-4 p-2">
+                                    <a href="#" data-toggle="modal" data-target="#sendInvitationModel"> <i class="fas fa-envelope fa-lg" data-toggle="tooltip" data-placement="top" title="invite people for this topic"></i></a>
                                     <th:block th:if="${#session.getAttribute('login')=='true' and
                    #session.getAttribute('login')!=null}">
-                                        <a class="mx-1" href="#" id="markAsRead" th:data-post-id="${post.getId()}">Mark as read</a>
 
-                                        <a class="mx-1" href="#" id="delete"
-                                           th:if="${post.getuser().getId()==currentUser.getId() or currentUser.getRole()=='ADMIN'}"
-                                           th:data-post-id="${post.getId()}">Delete</a>
-
+                                        <th:block th:if="${currentUser.getId()==topic.getUser().getId()}">
+                                            <a href=""> <i class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Edit topic"></i></a>
+                                            <a href=""> <i class="fas fa-trash-alt fa-lg" data-toggle="tooltip" data-placement="top" title="delete topic"></i></a>
+                                        </th:block>
                                     </th:block>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        </th:block>
+                        <hr/>
 
-            </div>
-            <div class="col-4">
-                <th:block th:replace="fragments/trendingTopics.html::trendingTopics"></th:block>
+
+                    </th:block>
+
+
+                </div>
             </div>
         </div>
     </div>
-</th:block>
+</div>
 
-
-<th:block th:if="${#session.getAttribute('login')=='true' and
+<th:block th:if="${#session.getAttribute('login')=='true' &&
                    #session.getAttribute('login')!=null}">
     <!-- create topic Modal -->
     <div class="modal fade" id="commentModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -158,11 +225,24 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form  >
+                        <div class="form-group">
+                            <label for="link_resource_name">Receiver's Email</label>
+                            <input type="email" class="form-control" id="receiver_email" placeholder="mail@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="link_resource_topic">Topic</label>
+                            <select class="form-control"  id="invitation_topic">
+                                <option  th:each="val:${currentUser.getSubscriptions()}" th:value="${val.getTopic().getId()}" th:text="${val.getTopic().getName()}" >Topic name</option>
+
+                            </select>
+                        </div>
+                    </form>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="sendInvite">Send Invitation</button>
                 </div>
             </div>
         </div>
@@ -254,169 +334,5 @@
 </th:block>
 
 <script src="/js/dashboard.js"></script>
-<script type="application/javascript" th:inline="javascript">
-
-    $(document).ready(function(){
-
-        const set=/*[[${session.login}]]*/;
-        if (set!=null){
-            let rate=/*[[${session.specificPostRating}]]*/;
-
-            showRating(rate);
-        } else{
-            let rate=/*[[${session.accumulativePostRating}]]*/;
-            showRating(rate);
-        }
-
-        $('.s1').on('click',function(){
-            if (set!=null){
-                rate1();
-
-            } else{
-                swal("Cannot Rate!!", "Please login to rate this post!", "error");
-            }
-        });
-        // 2 Star
-        $('.s2').click(function(){
-            if (set!=null){
-                rate2();
-
-            } else{
-                swal("Cannot Rate!!", "Please login to rate this post!", "error");
-            }
-        });
-        // 3 Star
-        $('.s3').click(function(){
-            if (set!=null){
-                rate3();
-
-            } else{
-                swal("Cannot Rate!!", "Please login to rate this post!", "error");
-            }
-        });
-        // 4 Star
-        $('.s4').click(function(){
-            if (set!=null){
-                rate4();
-
-            } else{
-                swal("Cannot Rate!!", "Please login to rate this post!", "error");
-            }
-        });
-        // 5 Star
-        $('.s5').click(function(){
-            if (set!=null){
-                rate5();
-
-            } else{
-                swal("Cannot Rate!!", "Please login to rate this post!", "error");
-            }
-        });
-
-        $('.star').click(function(){
-            if (set!=null){
-
-                let val = $(this).attr('getvalue').toString();
-                let postId=/*[[${session.postId}]]*/;
-                $.ajax({
-                    method:"post",
-                    url:"/ratePost",
-                    data:{rating:val,postId:postId},
-                }).done(function (data) {
-
-                   if (data=="success"){
-                       $.notify({
-                           message: 'Post rated successfully'
-                       },{ offset:60,
-                           type: 'success'
-                       });
-
-                   } else{
-                       $.notify({
-                           message: 'unable to rate Post'
-                       },{ offset:60,
-                           type: 'error'
-                       });
-
-                   }
-
-                }).fail(function(){
-                    $.notify({
-                        message: 'error while rating post'
-                    },{ offset:60,
-                        type: 'error'
-                    });
-                });
-            }
-        });
-
-        function rate1() {
-
-            $('.s1').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s2').removeClass('fa-star text-warning').addClass('fa-star-o');
-            $('.s3').removeClass('fa-star text-warning').addClass('fa-star-o');
-            $('.s4').removeClass('fa-star text-warning').addClass('fa-star-o');
-            $('.s5').removeClass('fa-star text-warning').addClass('fa-star-o');
-            $('#erating').html("<span class='badge badge-danger'>1 </span>");
-
-        }
-        function rate2() {
-
-            $('.s1').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s2').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s3').removeClass('fa-star text-warning').addClass('fa-star-o');
-            $('.s4').removeClass('fa-star text-warning').addClass('fa-star-o');
-            $('.s5').removeClass('fa-star text-warning').addClass('fa-star-o');
-            $('#erating').html("<span class='badge badge-warning'>2</span>");
-
-        }
-        function rate3() {
-
-            $('.s1').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s2').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s3').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s4').removeClass('fa-star text-warning').addClass('fa-star-o');
-            $('.s5').removeClass('fa-star text-warning').addClass('fa-star-o');
-            $('#erating').html("<span class='badge badge-success'>3</span>");
-        }
-        function rate4() {
-
-            $('.s1').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s2').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s3').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s4').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s5').removeClass('fa-star text-warning').addClass('fa-star-o');
-            $('#erating').html("<span class='badge badge-success'>4</span>");
-        }
-        function rate5() {
-
-            $('.s1').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s2').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s3').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s4').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('.s5').removeClass('fa-star-o').addClass('fa-star text-warning');
-            $('#erating').html("<span class='badge badge-success'>5</span>");
-        }
-
-        function showRating(rate){
-            switch (rate) {
-                case 1:rate1();
-                    break;
-                case 2:rate2();
-                    break;
-                case 3:rate3();
-                    break;
-                case 4:rate4();
-                    break;
-                case 5:rate5();
-                    break;
-                default:''
-
-            }
-        }
-
-
-    });
-</script>
 </body>
 </html>

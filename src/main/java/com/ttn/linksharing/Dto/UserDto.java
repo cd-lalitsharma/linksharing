@@ -16,6 +16,7 @@ public class UserDto {
     private String twitter;
     private String instagram;
     private String role;
+    private Integer currentPostRating;
     
     private List<Invitations> invitations= new ArrayList<>();
     
@@ -40,6 +41,14 @@ public class UserDto {
     
     public void setId(Integer id) {
         this.id = id;
+    }
+    
+    public Integer getCurrentPostRating() {
+        return currentPostRating;
+    }
+    
+    public void setCurrentPostRating(Integer currentPostRating) {
+        this.currentPostRating = currentPostRating;
     }
     
     public String getFirstName() {

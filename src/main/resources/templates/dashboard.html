@@ -171,11 +171,24 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form  >
+                        <div class="form-group">
+                            <label for="link_resource_name">Receiver's Email</label>
+                            <input type="email" class="form-control" id="receiver_email" placeholder="mail@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="link_resource_topic">Topic</label>
+                            <select class="form-control"  id="invitation_topic">
+                                <option  th:each="val:${currentUser.getSubscriptions()}" th:value="${val.getTopic().getId()}" th:text="${val.getTopic().getName()}" >Topic name</option>
+
+                            </select>
+                        </div>
+                    </form>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="sendInvite">Send Invitation</button>
                 </div>
             </div>
         </div>

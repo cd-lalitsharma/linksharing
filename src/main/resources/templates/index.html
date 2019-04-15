@@ -6,13 +6,7 @@
     <th:block th:include="fragments/plugins.html::plugins"></th:block>
 </head>
 <body>
-<nav class="navbar navbar-light bg-light ">
-    <a class="navbar-brand">Link Sharing</a>
-    <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-</nav>
+<th:block th:replace="fragments/navbar.html::navbar"></th:block>
 
 <div class="container-fluid">
     <div class="row mt-2">
@@ -28,64 +22,59 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img class="img-thumbnail" th:src="@{/img/user.png}">
-                                            </div>
-                                            <div class="col-8">
-                                                <h5 class="card-title">Special
-                                                    <span class="ml-1">@<a th:href="@{/as}" class="text-info">username</a></span>
-                                                    <span style="float: right">
-                                                    <a th:href="@{/as}" class="text-success">topic</a>
-                                                </span>
-                                                </h5>
-                                                <p class="card-text text-justify">
-                                                    With supporting text below as a natural lead-in to additional
-                                                    With supporting text below as a natural lead-in to additional
-                                                    With supporting text below as a natural lead-in to additional
-                                                    With supporting text below as a natural lead-in to additionalcontent.
-                                                </p>
-                                                <span style="float: left">
-                                                    <i class="fab fa-facebook-f" ></i>
-                                                    <i class="fab fa-twitter"></i>
-                                                    <i class="fab fa-instagram"></i>
-                                                </span>
-                                                <span style="float: right"><a th:href="@{/as}">visit post</a></span>
+                                       <th:block th:each="trendingPost,itr:${trendingPosts}">
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div><hr>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img class="img-thumbnail" th:src="@{/img/user.png}">
-                                            </div>
-                                            <div class="col-8">
-                                                <h5 class="card-title">Special
-                                                    <span class="ml-1">@<a th:href="@{/as}" class="text-info">username</a></span>
-                                                    <span style="float: right">
-                                                    <a th:href="@{/as}" class="text-success">topic</a>
-                                                </span>
-                                                </h5>
-                                                <p class="card-text text-justify">
-                                                    With supporting text below as a natural lead-in to additional
-                                                    With supporting text below as a natural lead-in to additional
-                                                    With supporting text below as a natural lead-in to additional
-                                                    With supporting text below as a natural lead-in to additionalcontent.
-                                                </p>
-                                                <span style="float: left">
-                                                    <i class="fab fa-facebook-f" ></i>
-                                                    <i class="fab fa-twitter"></i>
-                                                    <i class="fab fa-instagram"></i>
-                                                </span>
-                                                <span style="float: right"><a th:href="@{/as}">visit post</a></span>
+                                           <th:block th:if="${itr.index<5}">
 
-                                            </div>
-                                        </div>
+                                               <div class="row">
+                                                   <div class="col-3">
+                                                       <img class="img-thumbnail" th:src="@{'/'+${trendingPost.getuser().getPhoto()}}">
+                                                   </div>
+                                                   <div class="col-8">
+                                                       <div>
+                                                       <h5 class="card-title" th:text="${trendingPost.getTitle()}">Special</h5>
+                                                           <span class="ml-1">@<a th:href="@{'/user/id/'+${trendingPost.getuser().getId()}}"
+                                                                                  th:text="${trendingPost.getuser().getUsername()}"
+                                                                                  class="text-info">username</a></span>
+                                                           <span style="float: right">
+                                                        <a th:href="@{'topic/id/'+${trendingPost.gettopic().getId()}}"
+                                                       th:text="${trendingPost.gettopic().getName()}"
+                                                       class="text-success">topic</a>
+                                                        </span>
+                                                       </div>
+                                                       <p class="card-text text-justify" th:text="${trendingPost.getDescription()}">
+                                                           With supporting text below as a natural lead-in to additional
+                                                           With supporting text below as a natural lead-in to additional
+                                                       </p>
+                                                       <span style="float: left">
+                                                    <a th:href="@{'https://www.facebook.com/dialog/share?app_id=145634995501895&display=popup&href=http://www.linksharing.com/post/'+${trendingPost.getId()}}" target="_blank">
+                                                        <i class="fab fa-facebook-f" data-toggle="tooltip" data-placement="top" title="Share this post on Facebook"></i>
+                                                    </a>
+                                                    <a th:href="@{
+                                                    'http://twitter.com/share?text='+${trendingPost.getTitle()} +'&url=http://www.linksharing.com/post/'+${trendingPost.getId()}+'&hashtags=linksharing,ttn'
+
+                                                    }" target="_blank">
+                                                        <i class="fab fa-twitter" data-toggle="tooltip" data-placement="top" title="Share this post on Twitter"></i>
+                                                    </a>
+                                                    <a th:href="@{
+                                                    'https://www.linkedin.com/shareArticle?mini=true&url=http://www.linksharing.com/post/'+${trendingPost.getId()}+'&title='+${trendingPost.getTitle()}+'&summary='+${trendingPost.getDescription()}+'&source=tothenew.com'
+                                                     }" target="_blank">
+                                                     <i class="fab fa-linkedin" data-toggle="tooltip" data-placement="top" title="Share this post on linkedIn"></i>
+                                                    </a>
+                                                </span>
+                                                       <span style="float: right"><a th:href="@{'post/id/'+${trendingPost.getId()}}">visit post</a></span>
+
+                                                   </div>
+                                               </div><hr>
+
+
+
+
+                                           </th:block>
+
+                                       </th:block>
                                     </div>
-                                </div><hr>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -98,34 +87,60 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <img class="img-thumbnail" th:src="@{/img/user.png}">
-                                            </div>
-                                            <div class="col-8">
-                                                <h5 class="card-title">Special
-                                                    <span class="ml-1">@<a th:href="@{/as}" class="text-info">username</a></span>
-                                                    <span style="float: right">
-                                                    <a th:href="@{/as}" class="text-success">topic</a>
-                                                </span>
-                                                </h5>
-                                                <p class="card-text text-justify">
-                                                    With supporting text below as a natural lead-in to additional
-                                                    With supporting text below as a natural lead-in to additional
-                                                    With supporting text below as a natural lead-in to additional
-                                                    With supporting text below as a natural lead-in to additionalcontent.
-                                                </p>
-                                                <span style="float: left">
-                                                    <i class="fab fa-facebook-f" ></i>
-                                                    <i class="fab fa-twitter"></i>
-                                                    <i class="fab fa-instagram"></i>
-                                                </span>
-                                                <span style="float: right"><a th:href="@{/as}">visit post</a></span>
+                                        <th:block th:each="featuredPost,itr:${featuredPosts}">
 
-                                            </div>
-                                        </div>
+                                            <th:block th:if="${itr.index<5}">
+
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <img class="img-thumbnail" th:src="@{'/'+${featuredPost.getuser().getPhoto()}}">
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <div>
+                                                            <h5 class="card-title" th:text="${featuredPost.getTitle()}">Special</h5>
+                                                            <span class="ml-1">@<a th:href="@{'/user/id/'+${featuredPost.getuser().getId()}}"
+                                                                                   th:text="${featuredPost.getuser().getUsername()}"
+                                                                                   class="text-info">username</a></span>
+                                                            <span style="float: right">
+                                                        <a th:href="@{'topic/id/'+${featuredPost.gettopic().getId()}}"
+                                                           th:text="${featuredPost.gettopic().getName()}"
+                                                           class="text-success">topic</a>
+                                                        </span>
+                                                        </div>
+                                                        <p class="card-text text-justify" th:text="${featuredPost.getDescription()}">
+                                                            With supporting text below as a natural lead-in to additional
+                                                            With supporting text below as a natural lead-in to additional
+                                                        </p>
+                                                        <span style="float: left">
+                                                    <a th:href="@{'https://www.facebook.com/dialog/share?app_id=145634995501895&display=popup&href=http://www.linksharing.com/post/'+${featuredPost.getId()}}" target="_blank">
+                                                        <i class="fab fa-facebook-f" data-toggle="tooltip" data-placement="top" title="Share this post on Facebook"></i>
+                                                    </a>
+                                                    <a th:href="@{
+                                                    'http://twitter.com/share?text='+${featuredPost.getTitle()} +'&url=http://www.linksharing.com/post/'+${featuredPost.getId()}+'&hashtags=linksharing,ttn'
+
+                                                    }" target="_blank">
+                                                        <i class="fab fa-twitter" data-toggle="tooltip" data-placement="top" title="Share this post on Twitter"></i>
+                                                    </a>
+                                                    <a th:href="@{
+                                                    'https://www.linkedin.com/shareArticle?mini=true&url=http://www.linksharing.com/post/'+${featuredPost.getId()}+'&title='+${featuredPost.getTitle()}+'&summary='+${featuredPost.getDescription()}+'&source=tothenew.com'
+                                                     }" target="_blank">
+                                                     <i class="fab fa-linkedin" data-toggle="tooltip" data-placement="top" title="Share this post on linkedIn"></i>
+                                                    </a>
+                                                </span>
+                                                        <span style="float: right"><a th:href="@{'post/id/'+${featuredPost.getId()}}">visit post</a></span>
+
+                                                    </div>
+                                                </div><hr>
+
+
+
+
+                                            </th:block>
+
+                                        </th:block>
+
                                     </div>
-                                </div><hr> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -145,15 +160,15 @@
                         <div class="card-body ">
                             <form action="#" th:action="@{/login}" th:object="${loginco}" method="post" >
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-4 col-form-label">Email/Username*</label>
+                                    <label for="inputEmail3" class="col-4 col-form-label">Username*</label>
                                     <div class="col-8">
-                                        <input type="text" th:field="*{username}" class="form-control" id="inputEmail3" placeholder="Email" required>
+                                        <input type="text" th:field="*{username}" class="form-control" id="inputEmail3" placeholder="Username" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="inputPassword3" class="col-4 col-form-label">Password*</label>
                                     <div class="col-8">
-                                        <input type="password" th:field="*{password}" class="form-control is-valid" id="inputPassword3" placeholder="Password" required>
+                                        <input type="password" th:field="*{password}" class="form-control " id="inputPassword3" placeholder="Password" required>
                                     </div>
                                 </div>
 
@@ -166,6 +181,16 @@
                                     </div>
                                 </div>
                             </form>
+
+                            <th:block th:if="${#session.getAttribute('loginErrorMessage')!=null}">
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        <th:block th:each="error:${#session.getAttribute('loginErrorMessage')}">
+                                            <li th:text="${error}"></li>
+                                        </th:block>
+                                    </ul>
+                                </div>
+                            </th:block>
                         </div>
                     </div>
                 </div>
@@ -221,7 +246,7 @@
                                 <div class="form-group row">
                                     <label for="inputPassword3" class="col-4 col-form-label">Photo*</label>
                                     <div class="col-8">
-                                        <input type="file"  class="form-control" id="photo" name="photo" placeholder="photo" required>
+                                        <input type="file"  class="form-control" id="photo" name="photo" placeholder="photo" >
                                     </div>
                                 </div>
 
@@ -232,6 +257,15 @@
                                     </div>
                                 </div>
                             </form>
+                            <th:block th:if="${#session.getAttribute('signupErrorMessage')!=null}">
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        <th:block th:each="error:${#session.getAttribute('signupErrorMessage')}">
+                                            <li th:text="${error}"></li>
+                                        </th:block>
+                                    </ul>
+                                </div>
+                            </th:block>
                         </div>
                     </div>
                 </div>

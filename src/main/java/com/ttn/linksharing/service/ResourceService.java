@@ -148,4 +148,12 @@ public class ResourceService implements ResourceServiceInterface {
         
         return resourceRepository.getPostsById(postId);
     }
+    
+    public List<Posts> getFeaturedPosts(){
+        return resourceRepository.findAllByOrderByIdAsc();
+    }
+    
+    public List<Posts> getTrendingPosts(){
+        return resourceRepository.findAllByOrderByRatingsDesc();
+    }
 }

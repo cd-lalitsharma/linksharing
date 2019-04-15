@@ -5,13 +5,13 @@ import javax.validation.constraints.Size;
 
 public class SignupCo {
     
-    @Size(min = 3, max = 10,message = "first name can be between 2 to 10 characters")
+    @Size(min = 3, max = 10,message = "firstName should be between 3 to 10 characters")
     private String firstName;
-    @Size(min = 3, max = 10,message = "last name can be between 2 to 10 characters")
+    @Size(min = 3, max = 10,message = "lastName should be between 3 to 10 characters")
     private String lastName;
     @Email
     private String email;
-    @Size(min = 3, max = 10,message = "username can be between 2 to 10 characters")
+    @Size(min = 3, max = 10,message = "username should be between 3 to 10 characters")
     private String username;
     
     public String getPassword() {
@@ -22,6 +22,7 @@ public class SignupCo {
         this.password = password;
     }
     
+    @Size(min = 3, max = 10,message = "password should be between 3  to 10 characters")
     private String password;
     
     public String getFirstName() {

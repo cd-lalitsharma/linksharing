@@ -141,6 +141,103 @@
                 </div>
             </div>
             <!--created topic card ends here-->
+            <!--user subscriptions start here-->
+            <div class="row my-1">
+                <div class="col-12">
+                    <div class="card border-dark">
+                        <div class="card-header">
+                            Subscriptions
+                        </div>
+                        <div class="card-body">
+                            <th:block th:each="subscription,itr:${requestedUser.getSubscriptions()}">
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img th:src="@{'/'+${subscription.getUser().getPhoto()}}" height="50px" width="50px"/>
+                                    </div>
+                                    <div class="col-10">
+                                        <a th:href="@{/topic/id/{id}(id=${subscription.getTopic().getId()})}" class="card-title text-info"
+                                           th:text="${subscription.getTopic().getName()}"
+                                        >title</a>
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <p class="m-0 p-0 text-primary"
+                                                   th:text="'@'+${subscription.getUser().getUsername()}"
+                                                >@uday</p>
+                                                <th:block th:if="${#session.getAttribute('login')=='true' &&
+                   #session.getAttribute('login')!=null}">
+                                                <th:block th:if="${currentUser.getId()!=subscription.getTopic().getUser().getId()}">
+                                                    <!--the person who created topic cannot unsubscribe from it-->
+                                                    <a href="#" th:data-topic-id="${subscription.getTopic().getId()}"
+                                                       th:data-subunsub-toggle="${'unsubscribe'}"
+                                                       id="toggleSubscription"
+                                                       data-toggle="tooltip" data-placement="top" title="unsubscribe this topic"
+                                                    > <p class="m-0 p-0" th:text="${'unsusbcribe'}">unsubscribe</p></a>
+                                                </th:block>
+                                                </th:block>
+                                            </div>
+                                            <div class="col-5">
+                                                <p class="m-0 p-0">subscription</p>
+                                                <p class="m-0 p-0"
+                                                   th:text="${subscription.getTopic().getSubscription().size()}"
+                                                >50</p>
+                                            </div>
+                                            <div class="col-2">
+                                                <p class="m-0 p-0">post</p>
+                                                <p class="m-0 p-0"
+                                                   th:text="${subscription.getTopic().getposts().size()}"
+                                                >30</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <th:block th:if="${#session.getAttribute('login')=='true' &&
+                                #session.getAttribute('login')!=null}">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="input-group mb-3">
+                                            <select class="custom-select" id="subscriptionSeriousness" >
+
+                                                <option th:each="seriousness:${T(com.ttn.linksharing.enums.SeriousnessEnum).values()}" th:value="${seriousness}" th:text="${seriousness}"
+                                                        th:selected="${seriousness.toString()==subscription.getTopicSeriousness()}"
+                                                >seriousness</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4" data-toggle="tooltip" data-placement="top" title="change access setting">
+                                        <div class="input-group mb-3">
+                                            <select class="custom-select" id="subscriptionAcess" >
+                                                <option th:each="access:${T(com.ttn.linksharing.enums.VisibilityEnum).values()}" th:value="${access}" th:text="${access}"
+                                                        th:selected="${access.toString()==subscription.getTopic().getVisibility()}"
+                                                >access</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4 p-2">
+                                        <a href="#" data-toggle="modal" data-target="#sendInvitationModel"> <i class="fas fa-envelope fa-lg" data-toggle="tooltip" data-placement="top" title="invite people for this topic"></i></a>
+                                            <
+                                                <th:block th:if="${currentUser.getId()==subscription.getTopic().getUser().getId() or
+                                                                currentUser.getRole()=='ADMIN'}">
+
+                                                <a href=""> <i class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Edit topic"></i></a>
+                                                <a href=""> <i class="fas fa-trash-alt fa-lg" data-toggle="tooltip" data-placement="top" title="delete topic"></i></a>
+
+
+                                             </th:block>
+                                    </div>
+                                </div>
+                                </th:block>
+                                <hr/>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--user subscription ends here-->
+
         </div>
         <!--user posts-->
         <div class="col-8">

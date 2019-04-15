@@ -2,6 +2,8 @@ package com.ttn.linksharing.controller;
 
 import com.ttn.linksharing.co.LoginCo;
 import com.ttn.linksharing.co.SignupCo;
+import com.ttn.linksharing.service.ResourceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,9 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class MainController {
+    
+    @Autowired
+    ResourceService resourceService;
     
     @GetMapping("*")
     public String handle_404(HttpServletResponse response , HttpSession session) {
@@ -31,6 +36,9 @@ public class MainController {
         }else{
             model.addAttribute("loginco",new LoginCo());
             model.addAttribute("signupco",new SignupCo());
+            
+            model.addAttribute("featuredPosts",resourceService.getTrendingPosts());
+            model.addAttribute("trendingPosts",resourceService.getFeaturedPosts());
             return "index";
         }
         

@@ -18,6 +18,9 @@ public interface TopicsRepository extends CrudRepository<Topics,Integer> {
     @Query("select t from Topics t where t.user=:user")
     List<Topics> findTopicByUser(@Param("user") User user);
     
+    @Query("SELECT t FROM Topics  t WHERE t.name LIKE CONCAT('%',:search_term,'%')")
+    List<Topics> searchTopicName( @Param("search_term")String search_term);
+    
     
     
 }

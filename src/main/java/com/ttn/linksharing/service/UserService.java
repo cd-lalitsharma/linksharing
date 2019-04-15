@@ -25,4 +25,9 @@ public class UserService implements UserServiceInterface {
     public void saveUser(User userToSave) {
         userRepository.save(userToSave);
     }
+    
+    
+    public User getUserByUsernameAndPassword(String username, String password) {
+        return userRepository.getUserByUsernameAndPassword(username, password);
+    }
 }

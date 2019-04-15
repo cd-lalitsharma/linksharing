@@ -318,5 +318,9 @@ $(document).ready(function () {
     });
 
 
+    $("#sendInvite").click(function(){
+        alert("adasd");
+    });
+
      
 });

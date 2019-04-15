@@ -9,6 +9,7 @@ import com.ttn.linksharing.entity.Resources;
 import com.ttn.linksharing.entity.User;
 import com.ttn.linksharing.enums.ResourceEnum;
 import com.ttn.linksharing.service.DashboardService;
+import com.ttn.linksharing.service.RatingsService;
 import com.ttn.linksharing.service.ResourceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,9 @@ public class ResourceController {
     
     @Autowired
     DashboardService dashboardService;
+    
+    @Autowired
+    RatingsService ratingsService;
     
     @PostMapping("/createLinkResource")
     @ResponseBody
@@ -128,16 +132,21 @@ public class ResourceController {
             Integer currentUserId = (Integer) session.getAttribute("userId");
             User currentUser = dashboardService.getCurrentUser(currentUserId);
             UserDto currentUserDto = dashboardService.prepareUserDto(currentUser);
-            
+            currentUserDto.setCurrentPostRating(ratingsService.getCurrentPostRating(currentUserId,postId));
             model.addAttribute("currentUser",currentUserDto);
             model.addAttribute("topicCo",new TopicsCo());
             model.addAttribute("postsCo",new PostsCo());
+            session.setAttribute("specificPostRating",ratingsService.getCurrentPostRating(currentUserId,postId));
     
     
         }
-        
-        model.addAttribute("trendingTopics",dashboardService.trendingTopics());
+        if (session.getAttribute("specificPostRating")==null){
+            session.setAttribute("specificPostRating",0);
     
+        }
+        model.addAttribute("trendingTopics",dashboardService.trendingTopics());
+        session.setAttribute("accumulativePostRating",ratingsService.getAccumulativePostRating(postId));
+        session.setAttribute("postId",postId);
         Posts requestedPost = resourceService.getPostById(postId);
         
         model.addAttribute("post",requestedPost);

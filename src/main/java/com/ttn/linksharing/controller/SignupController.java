@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class SignupController {
@@ -28,12 +30,14 @@ public class SignupController {
                                       BindingResult bindingResult,
                                       HttpSession session,
                                       @RequestParam("photo") MultipartFile multipartFile){
-        System.out.println(signupCo);
-        //checking for errors in request
+    
+        List<String> signupErrorMessage=new ArrayList<>();
+    
         if (bindingResult.hasErrors()){
-            bindingResult.getFieldErrors().forEach(e-> System.out.println(e));
-            
-            //add errors to modal and show them on index page
+            bindingResult.getFieldErrors().forEach(e-> signupErrorMessage.add(e.getDefaultMessage()));
+    
+            session.setAttribute("signupErrorMessage",signupErrorMessage);
+    
             return "redirect:/";
             
         }else{

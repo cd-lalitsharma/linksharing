@@ -21,7 +21,10 @@ import org.slf4j.Logger;
 public class SignupService implements SignupServiceInterface {
     
     @Autowired
-   UserRepository userRepository;
+    UserRepository userRepository;
+    
+    @Autowired
+    MailSenderService mailSenderService;
    
    private  static final Logger logger= LoggerFactory.getLogger(SignupService.class);
     
@@ -40,28 +43,40 @@ public class SignupService implements SignupServiceInterface {
         user.setIsActive(1);
         
         //upload user pic and send email to confirm account
-        logger.info("trying to upload file");
-        try {
-            byte[] bytes= multipartFile.getBytes();
-            Path path= Paths.get(uploadPath+multipartFile.getOriginalFilename());
-            Files.write(path,bytes);
-            //store only filename
-            String photoPath="uploads/profilePhotos/"+multipartFile.getOriginalFilename();
-            user.setPhoto(photoPath);
-            System.out.println(path.toString());
-            
-        } catch (IOException e) {
-            logger.error("error while uploading file",e);
-            e.printStackTrace();
-            
+        
+        if (multipartFile.isEmpty()){
+            user.setPhoto("img/user.png");
+    
+        }else{
+            logger.info("trying to upload file");
+            try {
+                byte[] bytes= multipartFile.getBytes();
+                Path path= Paths.get(uploadPath+multipartFile.getOriginalFilename());
+                Files.write(path,bytes);
+                
+                String photoPath="uploads/profilePhotos/"+multipartFile.getOriginalFilename();
+                user.setPhoto(photoPath);
+                System.out.println("");
+        
+            } catch (IOException e) {
+                logger.error("error while uploading file",e);
+                e.printStackTrace();
+        
+            }
         }
+        
         
         logger.info("upload success now saving user to db");
         User savedUser=userRepository.save(user);
-        System.out.println(savedUser);
         if (savedUser!=null && savedUser.getFirstName().equals(signupCo.getFirstName())){
-            logger.info("returing saved user to signup controller");
-    
+            
+            
+            logger.info("returning saved user to signup controller and sending mail");
+            String name=savedUser.getFirstName()+" "+savedUser.getLastName();
+            String email=savedUser.getEmail();
+            String subject="signup success on linksharing";
+            String message="you are successfully signed up on linksharing. kindly login to start using linksharing.";
+            mailSenderService.prepareMail(name,email,subject,message);
             return savedUser;
         }else{
             return null;

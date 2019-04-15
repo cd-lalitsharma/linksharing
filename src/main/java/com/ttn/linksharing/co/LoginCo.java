@@ -4,8 +4,9 @@ import javax.validation.constraints.Size;
 
 public class LoginCo {
     
-    @Size(min = 2,message = "nai lega")
+    @Size(min = 2,message = "Username should be greater than 2 character")
     private String Username;
+    @Size(min = 2,message = "password should be greater than 2 character")
     private String password;
     
     public String getUsername() {
