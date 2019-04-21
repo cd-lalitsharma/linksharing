@@ -30,6 +30,9 @@ public class DashboardController {
     @Autowired
     DashboardService dashboardService;
     
+    @Autowired
+    ResourceService resourceService;
+    
     private final static Logger logger = LoggerFactory.getLogger(DashboardController.class);
     //show dashboard of user
     //only if logged in and session is set
@@ -37,7 +40,9 @@ public class DashboardController {
     @GetMapping("/dashboard")
     public String dashboard_get_request(HttpSession session, Model model) {
         
-        if (session.getAttribute("login") == "true") {
+        if (session.getAttribute("login")!=null &&
+            session.getAttribute("login") == "true"
+            ) {
     
     
             //Getting current user id from session
@@ -63,6 +68,9 @@ public class DashboardController {
             return "dashboard";
             
         } else {
+            model.addAttribute("featuredPosts",resourceService.getTrendingPosts());
+            model.addAttribute("trendingPosts",resourceService.getFeaturedPosts());
+    
             return "redirect:/";
         }
     

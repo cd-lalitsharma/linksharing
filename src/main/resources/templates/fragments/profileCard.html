@@ -21,7 +21,9 @@
                             <h5 class="card-title m-0" id="fullname"
                                 th:text="${currentUser.getFirstName()+' '+currentUser.getLastName()}"
                             >Full name</h5>
+                            <a th:href="@{'/user/id/'+${currentUser.getId()}}">
                             <p class="text-info m-0 p-0"  th:text="'@'+${currentUser.getUsername()}">@dskd</p>
+                            </a>
                             <div class="row mt-2">
                                 <div class="col-6">
                                     <p class="m-0 p-0">subscription</p>

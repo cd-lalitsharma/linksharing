@@ -73,13 +73,12 @@ public class TopicsService implements TopicsServiceInterface {
     
     @Transactional
     public String unsubscribeTopic(Integer userId, Integer topicId) {
-        User user=userRepository.getUserById(userId);
-        Topics topic = topicsRepository.getTopicsById(topicId);
-    
+        
         System.out.println("getting subscription of user to unfollow");
-        Boolean result= subscriptionRepository.deleteSubscriptionsByUserAndTopic(user,topic);
+        Integer result= subscriptionRepository.deleteSubscriptionsByUserAndTopic(userId,topicId);
     
-        if (result==true){
+        if (result!=null){
+            System.out.println(result +" is sresult ");
             System.out.println("removing subscription of user");
             
             return "success";
@@ -94,5 +93,34 @@ public class TopicsService implements TopicsServiceInterface {
     public Topics getTopicById(Integer topicId) {
         
         return topicsRepository.getTopicsById(topicId);
+    }
+    
+    public void deleteTopic(Integer topicId) {
+        
+        topicsRepository.deleteById(topicId);
+ 
+    }
+    
+    public void delete(Topics topic){
+        topicsRepository.delete(topic);
+    }
+    
+    public Boolean changeTopicSeriousness(Integer subscriptionId,String choosedSeriousnes) {
+    
+        Subscriptions subscription = subscriptionRepository.findSubscriptionsById(subscriptionId);
+       
+        String selectedSeriousness =SeriousnessEnum.valueOf(choosedSeriousnes).toString();
+        
+        if (selectedSeriousness.isEmpty()){
+            return false;
+        }else{
+            subscription.setTopicSeriousness(selectedSeriousness);
+            subscriptionRepository.save(subscription);
+            return true;
+        }
+        
+        
+        
+        
     }
 }

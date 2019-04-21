@@ -20,14 +20,18 @@
                                 <img th:src="@{'/'+${subscription.getUser().getPhoto()}}" height="50px" width="50px"/>
                             </div>
                             <div class="col-10">
-                                <a th:href="@{/topic/id/{id}(id=${subscription.getTopic().getId()})}" class="card-title text-info"
-                                   th:text="${subscription.getTopic().getName()}"
-                                >title</a>
+                                <a th:href="@{/topic/id/{id}(id=${subscription.getTopic().getId()})}" >
+
+                                    <input type="text" style="cursor: pointer;"  readonly class="form-control-plaintext" id="topicName" th:value="${subscription.getTopic().getName()}">
+
+                                </a>
                                 <div class="row">
                                     <div class="col-5">
+                                        <a th:href="@{'/user/id/'+${subscription.getUser().getId()}}">
                                         <p class="m-0 p-0 text-primary"
                                            th:text="'@'+${subscription.getUser().getUsername()}"
                                         >@uday</p>
+                                        </a>
 
                                         <th:block th:if="${currentUser.getId()!=subscription.getTopic().getUser().getId()}">
                                             <!--the person who created topic cannot unsubscribe from it-->
@@ -54,14 +58,16 @@
 
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="dropdownSetting">
                             <div class="col-4">
                                 <div class="input-group mb-3">
-                                    <select class="custom-select" id="subscriptionSeriousness" >
+                                    <select class="custom-select" id="subscriptionSeriousness"
+                                            th:data-subscriptionId="${subscription.getId()}" th:data-topicId="${subscription.getTopic().getId()}"
+                                    >
 
                                         <option th:each="seriousness:${T(com.ttn.linksharing.enums.SeriousnessEnum).values()}" th:value="${seriousness}" th:text="${seriousness}"
                                                 th:selected="${seriousness.toString()==subscription.getTopicSeriousness()}"
-                                        >seriousness</option>
+                                                 >seriousness</option>
                                     </select>
                                 </div>
                             </div>
@@ -75,11 +81,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-4 p-2">
+                            <div class="col-4 p-2" id="settingLinks">
                                 <a href="#" data-toggle="modal" data-target="#sendInvitationModel"> <i class="fas fa-envelope fa-lg" data-toggle="tooltip" data-placement="top" title="invite people for this topic"></i></a>
                                 <th:block th:if="${currentUser.getId()==subscription.getTopic().getUser().getId()}">
-                                    <a href=""> <i class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Edit topic"></i></a>
-                                    <a href=""> <i class="fas fa-trash-alt fa-lg" data-toggle="tooltip" data-placement="top" title="delete topic"></i></a>
+                                    <a href="" id="editTopic"> <i class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Edit topic"></i></a>
+                                    <a href="" id="deleteTopic"
+                                       th:data-topicName="${subscription.getTopic().getName()}"
+                                       th:data-topicId="${subscription.getTopic().getId()}"> <i class="fas fa-trash-alt fa-lg" data-toggle="tooltip" data-placement="top" title="delete topic"></i></a>
                                 </th:block>
                             </div>
                         </div><hr/>

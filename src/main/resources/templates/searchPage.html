@@ -18,6 +18,11 @@
                 <div class="card-body text-success">
                     <div class="row">
                         <div class="col-12">
+                            <th:block th:if="${postList.size()==0}">
+                                <h3 class="text-muted text-center">No Post found<br/>
+                                    <span class="text-center text-muted">please try to search with another term</span>
+                                </h3>
+                            </th:block>
                             <th:block th:each="post,itr:${postList}">
 
                                 <div class="row">
@@ -72,6 +77,12 @@
             <div class="card border-info">
                 <div class="card-header">Topics results</div>
                 <div class="card-body text-dark">
+                    <th:block th:if="${topicList.size()==0}">
+                        <h3 class="text-muted text-center">No Topic found
+                        <br/>
+                            <span class="text-center text-muted">please try to search with another term</span>
+                        </h3>
+                    </th:block>
                     <th:block  th:each="topic,itr:${topicList}">
 
                         <div class="row trendingTopic">

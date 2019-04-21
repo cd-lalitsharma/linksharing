@@ -26,6 +26,7 @@ $(document).ready(function () {
                     },{ offset:60,
                         type: 'success'
                     });
+                    setTimeout(function(){ location.reload() }, 2000);
                 }).fail(function () {
 
                 $.notify({
@@ -79,6 +80,7 @@ $(document).ready(function () {
                         offset:60,
                         type: 'success'
                     });
+                    setTimeout(function(){ location.reload() }, 2000);
 
                 }).fail(function(data){
                     swal("Error saving link resource", "Please try again", "error", {
@@ -136,6 +138,7 @@ $(document).ready(function () {
                     },{ offset:60,
                         type: 'success'
                     });
+                    setTimeout(function(){ location.reload() }, 2000);
                 }else{
                     swal("Error saving document resource to topic "+selectedTopic, "Please try again", "error", {
                         button: "okay",
@@ -195,6 +198,8 @@ $(document).ready(function () {
                     $("#inbox  #emptyInboxMessage").css("display","none");
 
                 }
+                setTimeout(function(){ location.reload() }, 2000);
+
             } else{
                 $.notify({
                     message: 'unable to mark post as read'
@@ -242,7 +247,6 @@ $(document).ready(function () {
             }).done(function(data){
 
                 if (data=="success"){
-                    alert("sub "+data);
 
                     $.notify({
                         message: 'topic successfully subscribed'
@@ -250,7 +254,6 @@ $(document).ready(function () {
                         type: 'success'
                     });
                 }else{
-                    alert("sub "+data);
 
                     $.notify({
                         message: 'unexpected error in subscribing topic'
@@ -281,15 +284,12 @@ $(document).ready(function () {
 
                 if (data=="success"){
 
-                    alert("unsub  "+data);
-
                     $.notify({
                         message: 'topic successfully unsubscribed'
                     },{ offset:60,
                         type: 'success'
                     });
                 }else{
-                    alert("unsub  "+data);
 
                     $.notify({
                         message: 'unexpected error in subscribing topic '+data
@@ -319,8 +319,124 @@ $(document).ready(function () {
 
 
     $("#sendInvite").click(function(){
-        alert("adasd");
+        var topicId=$("#invitation_topic").find(":selected").val();
+        var topicName=$("#invitation_topic").find(":selected").text();
+        var emailId=$("#receiver_email").val();
+        if (emailId==""){
+            swal("Did You Left Email blank?", "cannot send invitation without email", "error", {
+                button: "Try again!",
+            });
+        }else{
+            $("#sendInvite").attr("disabled", true);
+            $.ajax({
+                method:"POST",
+                url:"/sendTopicInvitation",
+                data:{topicId:topicId,email:emailId}
+            }).done(function(data){
+                if (data=="success"){
+                    $('#sendInvitationModel').modal('hide');
+                    $("#sendInvite").attr("disabled", false);
+                    $.notify({
+                        message: 'invitation send successfully for topic '+topicName
+                    },{ offset:60,
+                        type: 'success'
+                    });
+                } else{
+                    $('#sendInvitationModel').modal('hide');
+                    $.notify({
+                        message: 'unable to send invitation'
+                    },{ offset:60,
+                        type: 'error'
+                    });
+                }
+            }).fail(function(){
+                $('#sendInvitationModel').modal('hide');
+                $.notify({
+                    message: 'internal error in sending email'
+                },{ offset:60,
+                    type: 'error'
+                });
+            });
+
+        }
     });
 
-     
+    $("#settingLinks #deleteTopic").click(function(e){
+        e.preventDefault();
+        let deleteTopic=$(this);
+        let topicId= deleteTopic.attr("data-topicId");
+        let topicName= deleteTopic.attr("data-topicName");
+
+        $.ajax({
+            method:"POST",
+            url:"/deleteTopic",
+            data:{topicId:topicId}
+        }).done(function(){
+                if (data=="success"){
+                    $.notify({
+                        message: 'topic '+topicName+' successfully deleted'
+                    },{ offset:60,
+                        type: 'success'
+                    });
+                } else{
+                    $.notify({
+                        message: 'error in deleting topic'
+                    },{ offset:60,
+                        type: 'error'
+                    });
+                }
+        }).fail(function(){
+            $.notify({
+                message: 'internal error in deleting topic'
+            },{ offset:60,
+                type: 'error'
+            });
+        });
+
+    });
+
+/*
+     $("#settingLinks #editTopic").click(function (e) {
+         e.preventDefault();
+         let editTopic =$(this);
+         $("#topicName").removeAttr("readonly")
+     });
+*/
+
+     $("#dropdownSetting #subscriptionSeriousness").on('change',function (){
+        let seriousness =$(this);
+        let choosedSeriousnes=$('option:selected',$(this)).text();
+        let subscriptionId=seriousness.attr("data-subscriptionId");
+
+
+        $.ajax({
+            method:"POST",
+            url:"/changeTopicSeriousness",
+            data:{subscriptionId:subscriptionId,choosedSeriousnes:choosedSeriousnes}
+        }).done(function(data){
+
+            if (data=="success"){
+                $.notify({
+                    message: 'seriousness successfully changed to '+choosedSeriousnes
+                },{ offset:60,
+                    type: "success"
+                });
+                setTimeout(function(){ location.reload() }, 2000);
+            } else{
+                $.notify({
+                    message: 'error in changing seriouness'
+                },{ offset:60,
+                    type: "error"
+                });
+            }
+
+        }).fail(function(){
+            $.notify({
+                message: 'internal error in changing seriouness'
+            },{ offset:60,
+                type: "error"
+            });
+        });
+     });
+
 });

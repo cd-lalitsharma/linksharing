@@ -70,6 +70,7 @@ public class TopicsController {
     @ResponseBody
     public String post_unsubscribeTopic(@RequestParam("topicId") Integer topicId,
                                       HttpSession session){
+        System.out.println("topic unsusbcribe id is "+topicId);
         if (session.getAttribute("login")!=null &&
                 session.getAttribute("login")=="true"){
             
@@ -114,4 +115,45 @@ public class TopicsController {
         return "viewTopic";
     }
     
+    
+    @PostMapping("/deleteTopic")
+    @ResponseBody
+    public String deleteTopic(@RequestParam("topicId") Integer topicId,
+                              HttpSession session){
+        
+        if (session.getAttribute("login")!=null &&
+            session.getAttribute("login")=="true"
+            ){
+    
+            Topics topic =topicsService.getTopicById(topicId);
+//            topicsService.deleteTopic(topicId);
+            topicsService.delete(topic);
+            return "success";
+        }
+        
+        return "error";
+    }
+    
+    @PostMapping("/changeTopicSeriousness")
+    @ResponseBody
+    public String changeTopicSeriousness(
+            @RequestParam("subscriptionId") Integer subscriptionId,
+            @RequestParam("choosedSeriousnes") String choosedSeriousnes,
+            HttpSession session
+    ){
+        
+        if (session.getAttribute("login")!=null){
+            
+            
+            Boolean result=topicsService.changeTopicSeriousness(subscriptionId,choosedSeriousnes);
+            
+            if (result){
+                return "success";
+            }else {
+                return "error";
+            }
+        }else{
+            return "error";
+        }
+    }
 }

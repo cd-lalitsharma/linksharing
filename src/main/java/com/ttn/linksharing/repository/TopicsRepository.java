@@ -21,6 +21,7 @@ public interface TopicsRepository extends CrudRepository<Topics,Integer> {
     @Query("SELECT t FROM Topics  t WHERE t.name LIKE CONCAT('%',:search_term,'%')")
     List<Topics> searchTopicName( @Param("search_term")String search_term);
     
+    void deleteById(Integer topicId);
     
     
 }

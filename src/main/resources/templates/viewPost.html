@@ -16,11 +16,11 @@
     <br><a href="/"><h4 class="text-info text-center my-2">homepage?</h4></a>
 </th:block>
 
-
 <th:block th:unless="${post==null}">
     <div class="container-fluid mt-2">
 
         <div class="row">
+
             <div class="col-8">
                 <div class="row inboxPost mb-3">
                     <div class="col-12">
@@ -81,7 +81,7 @@
                                        th:if="${post.getresources().getType()=='LINK'}"
                                        target="_blank"
                                     >View full site</a>
-                                    <a class="mx-1" th:href="@{${post.getresources().getLocation()}}"
+                                    <a class="mx-1" th:href="@{'/'+${post.getresources().getLocation()}}"
                                        th:if="${post.getresources().getType()=='DOCUMENT'}"
                                        id="downloadDocument" download>Download</a>
                                     <th:block th:if="${#session.getAttribute('login')=='true' and
@@ -106,6 +106,7 @@
         </div>
     </div>
 </th:block>
+
 
 
 <th:block th:if="${#session.getAttribute('login')=='true' and

@@ -93,7 +93,7 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Posts> posts;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user",orphanRemoval = true)
     private Set<Subscriptions> subscription= new HashSet<>();
     
     

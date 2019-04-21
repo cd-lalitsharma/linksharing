@@ -31,7 +31,7 @@ public class MainController {
                         HttpSession session){
         if (session.getAttribute("login")=="true"
             && !session.getAttribute("login").toString().isEmpty()){
-          
+            
             return "redirect:/dashboard";
         }else{
             model.addAttribute("loginco",new LoginCo());

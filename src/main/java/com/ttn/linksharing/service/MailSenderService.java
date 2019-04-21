@@ -18,9 +18,14 @@ public class MailSenderService implements MailSenderServiceInterface {
     
     public void prepareMail(String name,String email,
                            String subject,String emailMessage){
-    
+        String customMessage;
         try {
-            String customMessage=name +" , "+emailMessage;
+            if (name.isEmpty()){
+                customMessage=emailMessage;
+            }else{
+                customMessage=name +" , "+emailMessage;
+    
+            }
             
             sendEmail(email,subject,customMessage);
         } catch (Exception e) {
